@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  AmplifyTheme,
+  Authenticator,
+  SignIn,
+  UsernameAttributes,
+} from "aws-amplify-react";
+import React, { useState } from "react";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+const App = () => {
+  const [signedIn, setSignedIn] = useState<boolean>(false);
+
+  const handleAuthStateChange = (state: string) => {
+    console.log({ state });
+    if (state === "loggedIn") {
+      setSignedIn(true);
+    } else {
+      setSignedIn(false);
+    }
+  };
+
+  return signedIn ? (
+    <div>Signed In!</div>
+  ) : (
+    <Authenticator
+      theme={AmplifyTheme}
+      hideDefault={true}
+      usernameAttributes={UsernameAttributes.EMAIL}
+      onStateChange={handleAuthStateChange}
+    >
+      <SignIn></SignIn>
+    </Authenticator>
   );
-}
+};
 
 export default App;
