@@ -1,0 +1,16 @@
+{
+  "name": "createuser",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk"
+  },
+  "dependencies": {
+    "aws-lambda": "^1.0.6",
+    "aws-sdk": "^2.1015.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.72"
+  }
+}

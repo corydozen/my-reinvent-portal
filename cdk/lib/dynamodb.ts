@@ -1,7 +1,6 @@
+import { config } from "../config";
 import cdk = require("@aws-cdk/core");
 import dynamodb = require("@aws-cdk/aws-dynamodb");
-
-import { config } from "../config";
 
 const { proj } = config;
 

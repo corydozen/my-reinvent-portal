@@ -1,7 +1,10 @@
 import {
   AmplifyTheme,
   Authenticator,
+  ConfirmSignUp,
+  ForgotPassword,
   SignIn,
+  SignUp,
   UsernameAttributes,
 } from "aws-amplify-react";
 import React, { useState } from "react";
@@ -12,7 +15,7 @@ const App = () => {
 
   const handleAuthStateChange = (state: string) => {
     console.log({ state });
-    if (state === "loggedIn") {
+    if (state === "signedIn") {
       setSignedIn(true);
     } else {
       setSignedIn(false);
@@ -28,6 +31,31 @@ const App = () => {
       usernameAttributes={UsernameAttributes.EMAIL}
       onStateChange={handleAuthStateChange}
     >
+      <ConfirmSignUp />
+      <ForgotPassword></ForgotPassword>
+      <SignUp
+        signUpConfig={{
+          hideAllDefaults: true,
+          signUpFields: [
+            {
+              key: "email",
+              displayOrder: 1,
+              label: "Email",
+              placeholder: "Enter your email address",
+              required: true,
+              type: "username",
+            },
+            {
+              key: "password",
+              displayOrder: 2,
+              label: "Password",
+              placeholder: "password",
+              required: true,
+              type: "password",
+            },
+          ],
+        }}
+      ></SignUp>
       <SignIn></SignIn>
     </Authenticator>
   );

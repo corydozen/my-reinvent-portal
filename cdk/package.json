@@ -1,9 +1,6 @@
 {
   "name": "personal_reinvent_bot",
   "version": "0.1.0",
-  "bin": {
-    "personal_reinvent_bot": "bin/personal_reinvent_bot.js"
-  },
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
@@ -21,8 +18,11 @@
     "typescript": "~3.9.7"
   },
   "dependencies": {
+    "@aws-cdk/aws-appsync": "1.128.0",
+    "@aws-cdk/aws-cognito": "1.128.0",
     "@aws-cdk/aws-dynamodb": "1.128.0",
     "@aws-cdk/aws-lambda": "1.128.0",
+    "@aws-cdk/aws-s3-deployment": "1.128.0",
     "@aws-cdk/core": "1.128.0",
     "source-map-support": "^0.5.16"
   }
