@@ -9,6 +9,8 @@ import {
 } from "aws-amplify-react";
 import React, { useState } from "react";
 import "./App.css";
+import Routes from "./Components/Routes";
+import TopNav from "./Components/TopNav";
 
 const App = () => {
   const [signedIn, setSignedIn] = useState<boolean>(false);
@@ -23,7 +25,10 @@ const App = () => {
   };
 
   return signedIn ? (
-    <div>Signed In!</div>
+    <div className="App">
+      <TopNav />
+      <Routes />
+    </div>
   ) : (
     <Authenticator
       theme={AmplifyTheme}

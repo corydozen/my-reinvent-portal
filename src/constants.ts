@@ -5,3 +5,6 @@ export const config = {
   UserPoolId: "us-east-1_Xuc1O0biz",
   region: "us-east-1",
 };
+
+export const SET_EMAIL = "SET_EMAIL";
+export const SET_AWS_PASSWORD = "SET_AWS_PASSWORD";
