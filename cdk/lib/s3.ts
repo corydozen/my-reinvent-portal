@@ -18,13 +18,5 @@ export class S3 extends cdk.Stack {
       sources: [s3deploy.Source.asset("../build")],
       destinationBucket: this.websiteBucket,
     });
-
-    new cdk.CfnOutput(this, "bucketUrl", {
-      description: "bucketUrl",
-      value:
-        "http://" +
-        this.websiteBucket.bucketName +
-        ".s3-website-us-east-1.amazonaws.com/",
-    });
   }
 }

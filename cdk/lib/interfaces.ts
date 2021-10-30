@@ -1,6 +1,7 @@
 import appsync = require("@aws-cdk/aws-appsync");
 import cognito = require("@aws-cdk/aws-cognito");
 import dynamodb = require("@aws-cdk/aws-dynamodb");
+import s3 = require("@aws-cdk/aws-s3");
 import cdk = require("@aws-cdk/core");
 
 export interface AppsyncProps {
@@ -23,6 +24,7 @@ export interface OutputProps {
   cognito: PropsFromCognito;
   appsync: PropsFromAppsync;
   stackProps: cdk.StackProps;
+  s3: PropsFromS3;
 }
 
 export interface PropsFromAppsync {
@@ -36,4 +38,8 @@ export interface PropsFromCognito {
 
 export interface PropsFromDynamoDb {
   table: dynamodb.Table;
+}
+
+export interface PropsFromS3 {
+  websiteBucket: s3.Bucket;
 }

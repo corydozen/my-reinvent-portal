@@ -22,5 +22,5 @@ const appsync = new Appsync(app, `${proj}Appsync`, {
   cognito,
   dynamodb,
 });
-new Output(app, `${proj}Output`, { stackProps: { env }, cognito, appsync });
-new S3(app, `${proj}S3`, { env });
+const s3 = new S3(app, `${proj}S3`, { env });
+new Output(app, `${proj}Output`, { stackProps: { env }, cognito, appsync, s3 });

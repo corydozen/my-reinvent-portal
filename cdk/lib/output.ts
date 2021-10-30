@@ -13,5 +13,13 @@ export class Output extends cdk.Stack {
       description: "webclientid",
       value: props.cognito.webclient.userPoolClientId,
     });
+
+    new cdk.CfnOutput(this, "bucketUrl", {
+      description: "bucketUrl",
+      value:
+        "http://" +
+        props.s3.websiteBucket.bucketName +
+        ".s3-website-us-east-1.amazonaws.com/",
+    });
   }
 }
