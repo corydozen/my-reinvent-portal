@@ -7,6 +7,7 @@ const { proj } = config;
 
 export class Appsync extends cdk.Stack {
   public readonly api: appsync.GraphqlApi;
+  public readonly dynamodbDataSource: appsync.DynamoDbDataSource;
   constructor(scope: cdk.Construct, id: string, props: AppsyncProps) {
     super(scope, id, props.stackProps);
     const apiName = `${proj}API`;
@@ -27,5 +28,14 @@ export class Appsync extends cdk.Stack {
         },
       },
     });
+    this.dynamodbDataSource = new appsync.DynamoDbDataSource(
+      this,
+      `${proj}DynamodbDataSource`,
+      {
+        api: this.api,
+        table: props.dynamodb.table,
+        serviceRole: props.appsyncPre.role,
+      }
+    );
   }
 }

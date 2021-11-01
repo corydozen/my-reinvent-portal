@@ -1,4 +1,5 @@
 type Query {
+  getMe: [User]
 }
 
 type Mutation {
@@ -7,4 +8,11 @@ type Mutation {
 schema {
   query: Query
   mutation: Mutation
+}
+
+type User {
+  PK: String
+  SK: String
+  email: String
+  awsPassword: String
 }

@@ -14,6 +14,11 @@ export class Output extends cdk.Stack {
       value: props.cognito.webclient.userPoolClientId,
     });
 
+    new cdk.CfnOutput(this, "apiurl", {
+      description: "apiurl",
+      value: props.appsync.api.graphqlUrl,
+    });
+
     new cdk.CfnOutput(this, "bucketUrl", {
       description: "bucketUrl",
       value:

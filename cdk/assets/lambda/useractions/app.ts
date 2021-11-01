@@ -17,7 +17,6 @@ export const createuser = async (
       lastUpdated: {
         S: new Date().toString(),
       },
-      isAdmin: { BOOL: false },
     },
   };
   await ddb.putItem(params).promise();
