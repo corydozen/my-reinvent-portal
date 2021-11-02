@@ -3,6 +3,7 @@ type Query {
 }
 
 type Mutation {
+  savePassword(awsPassword: String): User
 }
 
 schema {

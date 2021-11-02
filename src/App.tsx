@@ -10,7 +10,7 @@ import {
 } from "aws-amplify-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setEmail } from "./actions";
+import { setAwsPassword, setEmail } from "./actions";
 import "./App.css";
 import Routes from "./Components/Routes";
 import TopNav from "./Components/TopNav";
@@ -41,6 +41,7 @@ const App = () => {
       const { data } = (await API.graphql(graphqlOperation(getMe))) as any;
       const user = data.getMe as DbUser;
       dispatch(setEmail(user.email));
+      dispatch(setAwsPassword(user.awsPassword));
       console.log({ data });
     }
   };

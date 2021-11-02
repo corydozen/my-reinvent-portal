@@ -36,5 +36,13 @@ export class AppsyncResolvers extends cdk.Stack {
       responseType: "Single",
       dataSource: props.appsync.dynamodbDataSource,
     });
+
+    createResolver({
+      typeName: "Mutation",
+      fieldName: "savePassword",
+      props,
+      responseType: "Single",
+      dataSource: props.appsync.dynamodbDataSource,
+    });
   }
 }
