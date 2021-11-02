@@ -9,8 +9,9 @@ import { ReduxState } from "../interfaces";
 
 const TopNav = (props: any) => {
   const email = useSelector((state: ReduxState) => state.user.email);
-  const signOut = () => {
-    Auth.signOut();
+  const signOut = async () => {
+    const currentUser = await Auth.currentAuthenticatedUser();
+    currentUser.signOut();
     window.location.reload();
   };
 
