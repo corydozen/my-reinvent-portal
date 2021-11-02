@@ -33,7 +33,7 @@ export class AppsyncResolvers extends cdk.Stack {
       typeName: "Query",
       fieldName: "getMe",
       props,
-      responseType: "Multiple",
+      responseType: "Single",
       dataSource: props.appsync.dynamodbDataSource,
     });
   }

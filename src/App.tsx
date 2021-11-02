@@ -39,7 +39,7 @@ const App = () => {
   const refreshMe = async () => {
     if (signedIn) {
       const { data } = (await API.graphql(graphqlOperation(getMe))) as any;
-      const user = data.getMe[0] as DbUser;
+      const user = data.getMe as DbUser;
       dispatch(setEmail(user.email));
       console.log({ data });
     }
