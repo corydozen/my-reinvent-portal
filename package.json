@@ -37,7 +37,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "./bin/deploy.sh PersonalReinventBot2021 portal-reinvented"
+    "deploy": "./bin/deploy.sh PersonalReinventBot2021 portal-reinvented",
+    "deploylambda": "cd cdk/assets/lambda/catalogactions && yarn && cd ../../.. && yarn && yarn build && npx cdk synth && npx cdk deploy PersonalReinventBot2021Lambda --profile portal-reinvented --require-approval never && cd .."
   },
   "eslintConfig": {
     "extends": [

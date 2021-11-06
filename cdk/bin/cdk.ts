@@ -7,6 +7,7 @@ import { config } from "../config";
 import { Output } from "../lib/output";
 import { Appsync } from "../lib/appsync";
 import { S3 } from "../lib/s3";
+import { Lambda } from "../lib/lambda";
 import { AppsyncPre } from "../lib/appsync-pre";
 import { AppsyncResolvers } from "../lib/appsync-resolvers";
 
@@ -34,4 +35,5 @@ new AppsyncResolvers(app, `${proj}AppsyncResolvers`, {
   stackProps: { env },
   appsync,
 });
+new Lambda(app, `${proj}Lambda`, { stackProps: { env }, dynamodb });
 new Output(app, `${proj}Output`, { stackProps: { env }, cognito, appsync, s3 });
