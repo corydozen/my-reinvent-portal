@@ -22,7 +22,7 @@ phases:
       - yarn build
       - npx cdk bootstrap
       - npx cdk synth
-      - npx cdk deploy --all --require-approve never
+      - npx cdk deploy --all --require-approval never
       - aws cloudformation describe-stacks --stack-name "${proj}Output" --region us-east-1 > cloudformation.json
       - echo "export default {};" > ../src/config.ts
       - node parseCfOutput.js
