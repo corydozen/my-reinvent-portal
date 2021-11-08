@@ -9,6 +9,7 @@ phases:
       - pip uninstall aws-sam-cli -y
       - chmod +x bin/makeconfig.sh
       - bin/makeconfig.sh
+      - mkdir build
   build:
     commands:
       - cd cdk/assets/lambda/catalogactions
@@ -18,6 +19,7 @@ phases:
       - cd ../../..
       - yarn
       - yarn build
+      - npx cdk bootstrap
       - npx cdk synth
       - npx cdk deploy --all --require-approve never
       - aws cloudformation describe-stacks --stack-name "${proj}Output" --region us-east-1 > cloudformation.json
