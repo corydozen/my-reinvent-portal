@@ -18,7 +18,6 @@ phases:
       - cd ../../..
       - yarn
       - yarn build
-      - npx cdk bootstrap
       - npx cdk synth
       - npx cdk deploy --all --require-approve never
       - aws cloudformation describe-stacks --stack-name "${proj}Output" --region us-east-1 > cloudformation.json
