@@ -14,6 +14,7 @@
 1. Open your email and click on the verification link
 1. `chmod +x bin/deploy.sh`
 1. `./bin/deploy.sh PersonalReinventBot2021 portal-reinvented` <- The first parameter is the project name you chose in your `cdk/config.ts` file. The second parameter is the profile name you chose above.
+1. After deploying, create a user for yourself with the email address that you put in the `cdk/config.ts` file. Find that new user's sub in cognito and add that to your `cdk/config.ts` file as well
 
 ## If you only change cdk stuff
 

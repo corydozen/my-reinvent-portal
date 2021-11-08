@@ -2,6 +2,7 @@ import appsync = require("@aws-cdk/aws-appsync");
 import cognito = require("@aws-cdk/aws-cognito");
 import dynamodb = require("@aws-cdk/aws-dynamodb");
 import iam = require("@aws-cdk/aws-iam");
+import lambda = require("@aws-cdk/aws-lambda");
 import s3 = require("@aws-cdk/aws-s3");
 import cdk = require("@aws-cdk/core");
 
@@ -14,6 +15,7 @@ export interface AppsyncProps {
   appsyncPre: PropsFromAppsyncPre;
   cognito: PropsFromCognito;
   dynamodb: PropsFromDynamoDb;
+  lambda: PropsFromLambda;
   stackProps: cdk.StackProps;
 }
 
@@ -41,7 +43,8 @@ export interface OutputProps {
 
 export interface PropsFromAppsync {
   api: appsync.GraphqlApi;
-  dynamodbDataSource: appsync.DynamoDbDataSource | appsync.LambdaDataSource;
+  dynamodbDataSource: appsync.DynamoDbDataSource;
+  catalogActionsDataSource: appsync.LambdaDataSource;
 }
 
 export interface PropsFromAppsyncPre {
@@ -55,6 +58,10 @@ export interface PropsFromCognito {
 
 export interface PropsFromDynamoDb {
   table: dynamodb.Table;
+}
+
+export interface PropsFromLambda {
+  catalogActionsFunction: lambda.Function;
 }
 
 export interface PropsFromS3 {

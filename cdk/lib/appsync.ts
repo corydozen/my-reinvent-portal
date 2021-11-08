@@ -2,12 +2,14 @@ import { config } from "../config";
 import { AppsyncProps } from "./interfaces";
 import cdk = require("@aws-cdk/core");
 import appsync = require("@aws-cdk/aws-appsync");
+import lambda = require("@aws-cdk/aws-lambda");
 
 const { proj } = config;
 
 export class Appsync extends cdk.Stack {
   public readonly api: appsync.GraphqlApi;
   public readonly dynamodbDataSource: appsync.DynamoDbDataSource;
+  public readonly catalogActionsDataSource: appsync.LambdaDataSource;
   constructor(scope: cdk.Construct, id: string, props: AppsyncProps) {
     super(scope, id, props.stackProps);
     const apiName = `${proj}API`;
@@ -35,6 +37,14 @@ export class Appsync extends cdk.Stack {
         api: this.api,
         table: props.dynamodb.table,
         serviceRole: props.appsyncPre.role,
+      }
+    );
+    this.catalogActionsDataSource = new appsync.LambdaDataSource(
+      this,
+      `${proj}CatalogActionsDataSource`,
+      {
+        api: this.api,
+        lambdaFunction: props.lambda.catalogActionsFunction,
       }
     );
   }

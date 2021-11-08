@@ -44,5 +44,13 @@ export class AppsyncResolvers extends cdk.Stack {
       responseType: "Single",
       dataSource: props.appsync.dynamodbDataSource,
     });
+
+    createResolver({
+      typeName: "Mutation",
+      fieldName: "refreshMySessions",
+      props,
+      responseType: "Single",
+      dataSource: props.appsync.catalogActionsDataSource,
+    });
   }
 }

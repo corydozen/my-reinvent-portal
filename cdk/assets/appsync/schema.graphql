@@ -4,6 +4,7 @@ type Query {
 
 type Mutation {
   savePassword(awsPassword: String): User
+  refreshMySessions: Session[]
 }
 
 schema {
@@ -16,4 +17,34 @@ type User {
   SK: String
   email: String
   awsPassword: String
+}
+
+type Session {
+  PK: String
+  SK: String
+  action: String
+  alias: String
+  createdAt: Int
+  description: String
+  duration: Int
+  endTime: Int
+  isConflicting: String
+  isEmbargoed: Boolean
+  isFavoritedByMe: Boolean
+  isPaidSession: Boolean
+  level: String
+  location: String
+  myReservationStatus: String
+  name: String
+  sessionId: String
+  startTime: Int
+  status: String
+  type: String
+  capacities: String
+  customFieldDetails: String
+  package: String
+  price: String
+  room: String
+  sessionsType: String
+  track: String
 }

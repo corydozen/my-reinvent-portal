@@ -25,17 +25,21 @@ const appsyncPre = new AppsyncPre(app, `${proj}AppsyncPre`, {
   stackProps: { env },
   dynamodb,
 });
+const lambda = new Lambda(app, `${proj}Lambda`, {
+  stackProps: { env },
+  dynamodb,
+});
 const appsync = new Appsync(app, `${proj}Appsync`, {
   stackProps: { env },
   appsyncPre,
   cognito,
   dynamodb,
+  lambda,
 });
 const s3 = new S3(app, `${proj}S3`, { env });
 new AppsyncResolvers(app, `${proj}AppsyncResolvers`, {
   stackProps: { env },
   appsync,
 });
-new Lambda(app, `${proj}Lambda`, { stackProps: { env }, dynamodb });
 new Output(app, `${proj}Output`, { stackProps: { env }, cognito, appsync, s3 });
 new CodeBuild(app, `${proj}CodeBuild`, { env });

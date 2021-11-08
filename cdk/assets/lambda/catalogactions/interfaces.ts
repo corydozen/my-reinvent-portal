@@ -23,7 +23,12 @@ export interface Track {
   name: string;
 }
 export interface Session {
-  action?: "NO_SEATING" | "NO_CAPACITY" | "RESERVABLE" | "WAITLISTABLE";
+  action?:
+    | "NO_SEATING"
+    | "NO_CAPACITY"
+    | "RESERVABLE"
+    | "RESERVED"
+    | "WAITLISTABLE";
   alias: string;
   createdAt: number;
   description: string;
@@ -37,9 +42,9 @@ export interface Session {
   isEmbargoed: boolean | null;
   isFavoritedByMe: boolean | null;
   isPaidSession: boolean | null;
-  level: "intermediate" | "advanced" | null;
+  level: "intermediate" | "advanced" | "expert" | null;
   location: string | null;
-  myReservationStatus: string;
+  myReservationStatus: "NONE" | "RESERVED" | "WAITLISTED";
   name: string;
   sessionId: string;
   startTime: number;
@@ -67,7 +72,7 @@ export interface ListSessionsResult {
     };
   };
 }
-export interface QueryBody {
+export interface ListSessionsInput {
   input: {
     eventId: string;
     maxResults: number;

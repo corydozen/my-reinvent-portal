@@ -18,15 +18,15 @@ const {
 } = config;
 
 export class Lambda extends cdk.Stack {
+  public readonly catalogActionsFunction: lambda.Function;
   constructor(scope: cdk.Construct, id: string, props: LambdaProps) {
     super(scope, id, props.stackProps);
-
-    const refreshCatalogFunction = new lambda.Function(
+    this.catalogActionsFunction = new lambda.Function(
       this,
       `${proj}RefreshCatalogFunction`,
       {
         runtime: lambda.Runtime.NODEJS_14_X,
-        handler: "app.refreshCatalog",
+        handler: "app.handler",
         code: lambda.Code.fromAsset(
           path.join(__dirname, "../assets/lambda/catalogactions"),
           {
@@ -47,7 +47,8 @@ export class Lambda extends cdk.Stack {
       }
     );
 
-    const refreshCatalogFunctionRole = refreshCatalogFunction.role as iam.Role;
+    const refreshCatalogFunctionRole = this.catalogActionsFunction
+      .role as iam.Role;
 
     const dynamoPolicy = new iam.Policy(this, `${proj}DynamoPolicy`);
     const dynamoPolicyStatement = new iam.PolicyStatement({
@@ -73,7 +74,7 @@ export class Lambda extends cdk.Stack {
       weekDay: "*",
     });
     const refreshCatalogFunctionTarget = new eventsTargets.LambdaFunction(
-      refreshCatalogFunction
+      this.catalogActionsFunction
     );
 
     new events.Rule(this, `${proj}SavedAuctionWarningEmailRule`, {
@@ -86,7 +87,7 @@ export class Lambda extends cdk.Stack {
       description: "refreshCatalogFunctionCliCmd",
       value:
         "cd assets/lambda/catalogactions && yarn --prod --frozen-lockfile && touch catalogactions.zip && rm catalogactions.zip && find ./ -path './*' ! -path './prod_node_modules/*' ! -path './dev_node_modules/*' ! -path './*.ts' -type f -print | zip ./catalogactions.zip -@ && aws lambda update-function-code --region us-east-1 --function-name" +
-        refreshCatalogFunction.functionName +
+        this.catalogActionsFunction.functionName +
         " --zip-file fileb://./catalogactions.zip --profile=portal-reinvented && rm catalogactions.zip && cd ../../../..",
     });
   }
