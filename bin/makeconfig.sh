@@ -10,6 +10,6 @@ echo "export const config = {
   repo: \"$repo\",
   owner: \"$owner\",
   secretName: \"$secretName\",
-  githubOauthTokenKey: \"$githubOauthToken\",
+  githubOauthTokenKey: \"$githubOauthTokenKey\",
   branch: \"$branch\",
 };" > cdk/config.ts
