@@ -1,5 +1,6 @@
 type Query {
   getMe: User
+  getMySessions: Session[]
 }
 
 type Mutation {
