@@ -47,6 +47,11 @@ export class CodeBuild extends cdk.Stack {
         reinventCognitoPoolId: { value: reinventCognitoPoolId },
         reinventAppsyncUrl: { value: reinventAppsyncUrl },
         proj: { value: proj },
+        repo: { value: repo },
+        owner: { value: owner },
+        secretName: { value: secretName },
+        githubOauthTokenKey: { value: githubOauthTokenKey },
+        branch: { value: branch },
       },
     });
 

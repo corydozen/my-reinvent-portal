@@ -7,4 +7,9 @@ echo "export const config = {
   reinventCognitoClientId: \"$reinventCognitoClientId\",
   reinventAppsyncUrl:
     \"$reinventAppsyncUrl\",
+  repo: \"$repo\",
+  owner: \"$owner\",
+  secretName: \"$secretName\",
+  githubOauthTokenKey: \"$githubOauthToken\",
+  branch: \"$branch\",
 };" > cdk/config.ts
