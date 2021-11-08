@@ -101,11 +101,13 @@ export const refreshCatalog = async (event: any): Promise<boolean> => {
               customFieldDetails: {
                 S: JSON.stringify(session.customFieldDetails),
               },
-              package: { S: session.package || " " },
-              price: { N: session.price?.toString() || "0" },
+              package: {
+                S: session.package ? JSON.stringify(session.package) : " ",
+              },
+              price: { N: session.price?.value.toString() || "0" },
               room: { S: JSON.stringify(session.room) },
               sessionType: { S: JSON.stringify(session.sessionType) },
-              tracks: { S: JSON.stringify(session.tracks) },
+              tracks: { S: session.tracks.map(t => t.name).join(", ") },
             },
           };
           writeRequests.push({ PutRequest });

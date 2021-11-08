@@ -10,6 +10,7 @@ import { S3 } from "../lib/s3";
 import { Lambda } from "../lib/lambda";
 import { AppsyncPre } from "../lib/appsync-pre";
 import { AppsyncResolvers } from "../lib/appsync-resolvers";
+import { CodeBuild } from "../lib/codebuild";
 
 const { proj, region } = config;
 
@@ -37,3 +38,4 @@ new AppsyncResolvers(app, `${proj}AppsyncResolvers`, {
 });
 new Lambda(app, `${proj}Lambda`, { stackProps: { env }, dynamodb });
 new Output(app, `${proj}Output`, { stackProps: { env }, cognito, appsync, s3 });
+new CodeBuild(app, `${proj}CodeBuild`, { env });

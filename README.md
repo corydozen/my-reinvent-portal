@@ -19,6 +19,16 @@
 
 cd cdk && yarn build && npx cdk synth && npx cdk deploy --all --profile portal-reinvented --require-approval never && cd ..
 
+## Setting up CodeBuild
+
+1. [Create a github Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). Make sure it has the proper scopes [listed here](https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html).
+1. Create a new [Secret](https://console.aws.amazon.com/secretsmanager/home?region=us-east-1#!/home).
+1. Enter your Personal Access Token as the value and choose a meaningful key. I chose `githubOauthToken`
+1. Choose a meaningful name for the secret. I chose `githubOauthTokenSecret`.
+1. Ensure that the names you chose are in your `cdk/config.ts` file.
+1. Update the repo, owner, and branch entries in the `cdk/config.ts` file to reflect your setup.
+1. `cd cdk && yarn build && npx cdk synth && npx cdk deploy PersonalReinventBot2021CodeBuild --require-approval never --profile portal-reinvented` Obviously, put your profile and your stack name in there.
+
 ## Notes
 
 ### Optimization Attempts

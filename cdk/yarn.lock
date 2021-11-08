@@ -192,6 +192,23 @@
     "@aws-cdk/core" "1.128.0"
     constructs "^3.3.69"
 
+"@aws-cdk/aws-codedeploy@1.128.0":
+  version "1.128.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-codedeploy/-/aws-codedeploy-1.128.0.tgz#93bb002eb86d1e8dea19a0e8c145019e93fb0838"
+  integrity sha512-Z/cipJXNyjuiJXBSX4CXaqRsYjLMuY/MvlV4c9cyk4ZIIIZ8/3Nm/3Ceh2lEeXd6uyUAKiJUY+oG6g9/sLXpkg==
+  dependencies:
+    "@aws-cdk/aws-autoscaling" "1.128.0"
+    "@aws-cdk/aws-cloudwatch" "1.128.0"
+    "@aws-cdk/aws-ec2" "1.128.0"
+    "@aws-cdk/aws-elasticloadbalancing" "1.128.0"
+    "@aws-cdk/aws-elasticloadbalancingv2" "1.128.0"
+    "@aws-cdk/aws-iam" "1.128.0"
+    "@aws-cdk/aws-lambda" "1.128.0"
+    "@aws-cdk/aws-s3" "1.128.0"
+    "@aws-cdk/core" "1.128.0"
+    "@aws-cdk/custom-resources" "1.128.0"
+    constructs "^3.3.69"
+
 "@aws-cdk/aws-codeguruprofiler@1.128.0":
   version "1.128.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-codeguruprofiler/-/aws-codeguruprofiler-1.128.0.tgz#9aab263da8f4f4ef4d4f46e1e8ed90f4674c7ff3"
@@ -199,6 +216,32 @@
   dependencies:
     "@aws-cdk/aws-iam" "1.128.0"
     "@aws-cdk/core" "1.128.0"
+    constructs "^3.3.69"
+
+"@aws-cdk/aws-codepipeline-actions@1.128.0":
+  version "1.128.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-codepipeline-actions/-/aws-codepipeline-actions-1.128.0.tgz#54d8022585f76d2e58d93ff18be507929afb8376"
+  integrity sha512-9QHW+urSISqTkSibEhsK/6AOhSe/XLLTmyROBDbrvAR7JnDQMJAKCDkZsORaJa8K4JBhKT7xu4Xmfex8a90dhg==
+  dependencies:
+    "@aws-cdk/aws-cloudformation" "1.128.0"
+    "@aws-cdk/aws-codebuild" "1.128.0"
+    "@aws-cdk/aws-codecommit" "1.128.0"
+    "@aws-cdk/aws-codedeploy" "1.128.0"
+    "@aws-cdk/aws-codepipeline" "1.128.0"
+    "@aws-cdk/aws-ec2" "1.128.0"
+    "@aws-cdk/aws-ecr" "1.128.0"
+    "@aws-cdk/aws-ecs" "1.128.0"
+    "@aws-cdk/aws-events" "1.128.0"
+    "@aws-cdk/aws-events-targets" "1.128.0"
+    "@aws-cdk/aws-iam" "1.128.0"
+    "@aws-cdk/aws-kms" "1.128.0"
+    "@aws-cdk/aws-lambda" "1.128.0"
+    "@aws-cdk/aws-s3" "1.128.0"
+    "@aws-cdk/aws-sns" "1.128.0"
+    "@aws-cdk/aws-sns-subscriptions" "1.128.0"
+    "@aws-cdk/aws-stepfunctions" "1.128.0"
+    "@aws-cdk/core" "1.128.0"
+    case "1.6.3"
     constructs "^3.3.69"
 
 "@aws-cdk/aws-codepipeline@1.128.0":

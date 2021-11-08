@@ -7,4 +7,9 @@ export const config = {
   reinventCognitoClientId: "2h40eam2atft40g0c3mlg0aei1",
   reinventAppsyncUrl:
     "https://api.us-east-1.prod.events.aws.a2z.com/attendee/graphql",
+  repo: "my-reinvent-portal",
+  owner: "corydozen",
+  secretName: "githubOauthTokenSecret",
+  githubOauthTokenKey: "githubOauthToken",
+  branch: "main",
 };

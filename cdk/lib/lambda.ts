@@ -43,6 +43,7 @@ export class Lambda extends cdk.Stack {
           emailAddress,
         },
         timeout: cdk.Duration.minutes(10),
+        memorySize: 256,
       }
     );
 

@@ -12,6 +12,16 @@ export interface Room {
   name: string | null;
   venue: string | null;
 }
+export interface Package {
+  itemId: string;
+}
+export interface Price {
+  currency: string;
+  value: number;
+}
+export interface Track {
+  name: string;
+}
 export interface Session {
   action?: "NO_SEATING" | "NO_CAPACITY" | "RESERVABLE" | "WAITLISTABLE";
   alias: string;
@@ -40,13 +50,13 @@ export interface Session {
     waitlistRemaining: number;
   };
   customFieldDetails: CustomField[];
-  package: string | null;
-  price: number | null;
+  package: Package | null;
+  price: Price | null;
   room: Room;
   sessionType: {
     name: string;
   };
-  tracks: string[];
+  tracks: Track[];
 }
 export interface ListSessionsResult {
   data: {

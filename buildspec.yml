@@ -1,0 +1,32 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+  pre_build:
+    commands:
+      - pip uninstall aws-sam-cli -y
+      - chmod +x bin/makeconfig.sh
+      - bin/makeconfig.sh
+  build:
+    commands:
+      - cd cdk/assets/lambda/catalogactions
+      - yarn
+      - cd ../../..
+      - yarn
+      - yarn build
+      - npx cdk bootstrap
+      - npx cdk synth
+      - npx cdk deploy --all --require-approve never
+      - aws cloudformation describe-stacks --stack-name "${proj}Output" --region us-east-1 > cloudformation.json
+      - echo "export default {};" > ../src/config.ts
+      - node parseCfOutput.js
+      - cd ..
+      - yarn
+      - yarn build
+      - cd cdk
+      - npx cdk deploy "${proj}S3" --require-approval never --region us-east-1
+  post_build:
+    commands:
+      - echo Build completed on `date`
