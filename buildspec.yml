@@ -13,6 +13,8 @@ phases:
     commands:
       - cd cdk/assets/lambda/catalogactions
       - yarn
+      - cd ../useractions
+      - yarn
       - cd ../../..
       - yarn
       - yarn build
