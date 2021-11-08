@@ -57,6 +57,7 @@ export class Lambda extends cdk.Stack {
     dynamoPolicyStatement.addActions("dynamodb:PutItem");
     dynamoPolicyStatement.addActions("dynamodb:UpdateItem");
     dynamoPolicyStatement.addActions("dynamodb:Query");
+    dynamoPolicyStatement.addActions("dynamodb:BatchWriteItem");
 
     dynamoPolicyStatement.addResources(props.dynamodb.table.tableArn);
 
@@ -64,7 +65,7 @@ export class Lambda extends cdk.Stack {
     refreshCatalogFunctionRole.attachInlinePolicy(dynamoPolicy);
 
     const eventDaySchedule = events.Schedule.cron({
-      hour: "*",
+      hour: "0",
       minute: "55",
       month: "*",
       year: "*",
