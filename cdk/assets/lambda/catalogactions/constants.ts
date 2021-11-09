@@ -32,7 +32,7 @@ export const logIntoReinventPortal = async (sub: string, ddb: AWS.DynamoDB) => {
 
   if (response.Items && response.Items.length > 0) {
     const password = response.Items[0].awsPassword.S;
-    const emailAddress = response.Items[0].emailAddress.S;
+    const emailAddress = response.Items[0].email.S;
     Amplify.configure({
       Auth: {
         region,

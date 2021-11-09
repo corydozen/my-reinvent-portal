@@ -10,7 +10,6 @@ phases:
       - chmod +x bin/makeconfig.sh
       - bin/makeconfig.sh
       - mkdir build
-      - cat cdk/config.ts
   build:
     commands:
       - cd cdk/assets/lambda/catalogactions
