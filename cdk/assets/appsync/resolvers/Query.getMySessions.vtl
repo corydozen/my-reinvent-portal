@@ -2,7 +2,7 @@
   "version": "2018-05-29",
   "operation": "Query",
   "query": {
-    "expression": "PK = :PK and SK begins_with(:SK)",
+    "expression": "PK = :PK and begins_with(SK, :SK)",
     "expressionValues": {
       ":PK": { "S": "user#$ctx.identity.sub" },
       ":SK": { "S": "class#" }

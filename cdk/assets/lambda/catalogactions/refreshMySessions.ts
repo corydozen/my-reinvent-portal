@@ -22,7 +22,7 @@ export const refreshMySessions = async (
   const TableName = process.env.tablename!;
   const sessionsInDynamoQuery: QueryInput = {
     TableName,
-    KeyConditionExpression: "PK = :PK and SK begins_with(:SK)",
+    KeyConditionExpression: "PK = :PK and begins_with(SK, :SK)",
     ExpressionAttributeValues: {
       ":PK": { S: `user#${event.sub}` },
       ":SK": { S: "class#" },
@@ -36,7 +36,7 @@ export const refreshMySessions = async (
   if (sessionsInDynamo.Items) {
     for (let row = 0; row < sessionsInDynamo.Items.length; row++) {
       if (
-        mySessions.find(s => {
+        mySessions.findIndex(s => {
           let PK =
             sessionsInDynamo.Items && sessionsInDynamo.Items[row].PK
               ? sessionsInDynamo.Items[row].PK?.S
@@ -47,7 +47,7 @@ export const refreshMySessions = async (
           } else {
             return false;
           }
-        }) === null
+        }) === -1
       ) {
         // didn't find it!
         const DeleteRequest = {
@@ -74,12 +74,12 @@ export const refreshMySessions = async (
     // Add sessions that are missing
     for (let row = 0; row < mySessions.length; row++) {
       if (
-        sessionsInDynamo.Items.find(
+        sessionsInDynamo.Items.findIndex(
           s =>
             s.PK &&
             s.PK.S &&
             s.PK.S.substring(s.PK.S.length - 36) === mySessions[row].sessionId
-        ) === null
+        ) === -1
       ) {
         // didn't find it
         const PutRequest = {
