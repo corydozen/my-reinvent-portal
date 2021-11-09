@@ -79,3 +79,14 @@ export interface ListSessionsInput {
     nextToken?: string | null;
   };
 }
+export interface MySessionsResult {
+  data: {
+    event: {
+      eventId: string;
+      name: string;
+      mySessions: {
+        items: Session[];
+      };
+    };
+  };
+}
