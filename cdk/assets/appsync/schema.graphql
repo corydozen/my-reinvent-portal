@@ -1,11 +1,11 @@
 type Query {
   getMe: User
-  getMySessions: Session[]
+  getMySessions: [Session]
 }
 
 type Mutation {
   savePassword(awsPassword: String): User
-  refreshMySessions: Session[]
+  refreshMySessions: [Session]
 }
 
 schema {
