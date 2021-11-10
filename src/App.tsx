@@ -10,12 +10,13 @@ import {
 } from "aws-amplify-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setAwsPassword, setEmail } from "./actions";
+import { setAwsPassword, setEmail, setMySessions } from "./actions";
 import "./App.css";
 import Routes from "./Components/Routes";
 import TopNav from "./Components/TopNav";
-import { getMe } from "./graphql/queries";
-import { DbUser } from "./interfaces";
+import { getMe, getMySessions as getMySessionsQuery } from "./graphql/queries";
+import { refreshMySessions as refreshMySessionsMutation } from "./graphql/mutations";
+import { DbSession, DbUser } from "./interfaces";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -42,7 +43,26 @@ const App = () => {
       const user = data.getMe as DbUser;
       dispatch(setEmail(user.email));
       dispatch(setAwsPassword(user.awsPassword));
+      await getMySessions();
+      await refreshMySessions();
+      await getMySessions();
+    }
+  };
+
+  const refreshMySessions = async () => {
+    if (signedIn) {
+      (await API.graphql(graphqlOperation(refreshMySessionsMutation))) as any;
+    }
+  };
+
+  const getMySessions = async () => {
+    if (signedIn) {
+      const { data } = (await API.graphql(
+        graphqlOperation(getMySessionsQuery)
+      )) as any;
       console.log({ data });
+      const sessions = data.getMySessions as DbSession[];
+      dispatch(setMySessions(sessions));
     }
   };
 
