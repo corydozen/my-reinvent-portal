@@ -28,7 +28,7 @@ type Session {
   createdAt: Int
   description: String
   duration: Int
-  endTime: Int
+  endTime: Long
   isConflicting: String
   isEmbargoed: Boolean
   isFavoritedByMe: Boolean
@@ -38,7 +38,7 @@ type Session {
   myReservationStatus: String
   name: String
   sessionId: String
-  startTime: Int
+  startTime: Long
   status: String
   type: String
   capacities: String
