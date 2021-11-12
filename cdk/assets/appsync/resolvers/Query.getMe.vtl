@@ -2,10 +2,9 @@
   "version": "2018-05-29",
   "operation": "Query",
   "query": {
-    "expression": "PK = :PK and SK = :SK",
+    "expression": "PK = :PK",
     "expressionValues": {
       ":PK": { "S": "user#$ctx.identity.sub" },
-      ":SK": { "S": "info" }
     }
   }
 }

@@ -1,5 +1,5 @@
 type Query {
-  getMe: User
+  getMe: GetMeReturn
   getMySessions: [Session]
 }
 
@@ -11,6 +11,57 @@ type Mutation {
 schema {
   query: Query
   mutation: Mutation
+}
+
+type GetMeReturn {
+  PK: String
+  SK: String
+  email: String
+  awsPassword: String
+
+  action: String
+  alias: String
+  createdAt: Int
+  description: String
+  duration: Int
+  endTime: Long
+  isConflicting: String
+  isEmbargoed: Boolean
+  isFavoritedByMe: Boolean
+  isPaidSession: Boolean
+  level: String
+  location: String
+  myReservationStatus: String
+  name: String
+  sessionId: String
+  startTime: Long
+  status: String
+  type: String
+  capacities: String
+  customFieldDetails: String
+  package: String
+  price: String
+  room: String
+  sessionType: String
+  track: String
+
+  alertType: String
+  parameters: String
+  joinParametersWith: String
+}
+
+type Friend {
+  PK: String
+  SK: String
+  email: String
+}
+
+type Alert {
+  PK: String
+  SK: String
+  alertType: String
+  parameters: String
+  joinParametersWith: String
 }
 
 type User {
