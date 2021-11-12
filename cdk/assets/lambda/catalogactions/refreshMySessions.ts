@@ -92,6 +92,10 @@ export const refreshMySessions = async (
             endTime: { N: mySessions[row].endTime?.toString() || "0" },
             duration: { N: mySessions[row].duration.toString() },
             sessionType: { S: mySessions[row].sessionType.name },
+            room: {
+              S: `${mySessions[row].room.venue} at ${mySessions[row].room.name}`,
+            },
+            myReservationStatus: { S: mySessions[row].myReservationStatus },
           },
         };
         writeRequests.push({ PutRequest });
