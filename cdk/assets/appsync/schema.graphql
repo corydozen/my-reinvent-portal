@@ -46,6 +46,6 @@ type Session {
   package: String
   price: String
   room: String
-  sessionsType: String
+  sessionType: String
   track: String
 }
