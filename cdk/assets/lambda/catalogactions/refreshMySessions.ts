@@ -91,7 +91,7 @@ export const refreshMySessions = async (
             startTime: { N: mySessions[row].startTime.toString() },
             endTime: { N: mySessions[row].endTime?.toString() || "0" },
             duration: { N: mySessions[row].duration.toString() },
-            classType: { S: mySessions[row].sessionType.name },
+            sessionType: { S: mySessions[row].sessionType.name },
           },
         };
         writeRequests.push({ PutRequest });
