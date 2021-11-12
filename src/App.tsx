@@ -16,7 +16,15 @@ import Routes from "./Components/Routes";
 import TopNav from "./Components/TopNav";
 import { getMe, getMySessions as getMySessionsQuery } from "./graphql/queries";
 import { refreshMySessions as refreshMySessionsMutation } from "./graphql/mutations";
-import { DbSession, DbUser } from "./interfaces";
+import {
+  DbSession,
+  DbGetMeReturn,
+  Friend,
+  Session,
+  Alert,
+  AlertType,
+  AlertParameter,
+} from "./interfaces";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -34,18 +42,59 @@ const App = () => {
   useEffect(() => {
     if (signedIn) {
       refreshMe();
+      refreshMySessions();
+      refreshMe();
     }
   }, [signedIn]);
 
   const refreshMe = async () => {
     if (signedIn) {
       const { data } = (await API.graphql(graphqlOperation(getMe))) as any;
-      const user = data.getMe as DbUser;
-      dispatch(setEmail(user.email));
-      dispatch(setAwsPassword(user.awsPassword));
-      await getMySessions();
-      await refreshMySessions();
-      await getMySessions();
+      const getMeReturn = data.getMe as DbGetMeReturn[];
+      const friends: Friend[] = [];
+      const sessions: Session[] = [];
+      const alerts: Alert[] = [];
+      for (let iterator = 0; iterator < getMeReturn.length; iterator++) {
+        const row = getMeReturn[iterator];
+        const rowType = row.SK.substring(0, row.SK.indexOf("#"));
+        switch (rowType) {
+          case "info":
+            dispatch(setEmail(row.email));
+            dispatch(setAwsPassword(row.awsPassword));
+            break;
+          case "friend":
+            friends.push({
+              email: row.email,
+              status: row.SK.substring(
+                row.SK.indexOf("#"),
+                row.SK.indexOf("#", row.SK.indexOf("#") + 1)
+              ),
+            });
+            break;
+          case "class":
+            sessions.push({
+              sessionId: row.SK.substring(row.SK.indexOf("#", 8) + 1),
+              description: row.description,
+              duration: row.duration,
+              endTime: row.endTime,
+              name: row.name,
+              room: row.room,
+              sessionType: row.sessionType,
+              startTime: row.startTime,
+            });
+            break;
+          case "alert":
+            alerts.push({
+              alertType: row.alertType as AlertType,
+              id: row.SK.substring(row.SK.indexOf("#")),
+              joinParametersWith: row.joinParametersWith as "and" | "or",
+              parameters: JSON.parse(row.parameters) as AlertParameter[],
+            });
+            break;
+          default:
+            console.error(`Unknown rowType in getMeReturn ${rowType}`);
+        }
+      }
     }
   };
 

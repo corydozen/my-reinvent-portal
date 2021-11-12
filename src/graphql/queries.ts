@@ -4,6 +4,36 @@ export const getMe = `query GetMe {
     SK
     email
     awsPassword
+
+    action
+    alias
+    createdAt
+    description
+    duration
+    endTime
+    isConflicting
+    isEmbargoed
+    isFavoritedByMe
+    isPaidSession
+    level
+    location
+    myReservationStatus
+    name
+    sessionId
+    startTime
+    status
+    type
+    capacities
+    customFieldDetails
+    package
+    price
+    room
+    sessionType
+    track
+
+    alertType
+    parameters
+    joinParametersWith
   }
 }`;
 
