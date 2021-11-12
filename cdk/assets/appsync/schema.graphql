@@ -48,6 +48,8 @@ type GetMeReturn {
   alertType: String
   parameters: String
   joinParametersWith: String
+
+  original: Boolean
 }
 
 type Friend {
