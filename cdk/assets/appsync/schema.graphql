@@ -1,6 +1,5 @@
 type Query {
-  getMe: GetMeReturn
-  getMySessions: [Session]
+  getMe: [GetMeReturn]
 }
 
 type Mutation {
