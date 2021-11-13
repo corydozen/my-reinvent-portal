@@ -9,3 +9,5 @@ export const config = {
 export const SET_EMAIL = "SET_EMAIL";
 export const SET_AWS_PASSWORD = "SET_AWS_PASSWORD";
 export const SET_MY_SESSIONS = "SET_MY_SESSIONS";
+export const SET_MY_FRIENDS = "SET_MY_FRIENDS";
+export const SET_MY_ALERTS = "SET_MY_ALERTS";

@@ -1,0 +1,12 @@
+{
+  "version": "2018-05-29",
+  "operation": "Query",
+  "query": {
+    "expression": "GSI1PK = :PK and begins_with(GSI1SK, :SK)",
+    "expressionValues": {
+      ":PK": { "S": "user#$ctx.identity.sub" },
+      ":SK": { "S": "friend" }
+    }
+  },
+  "index": "GSI1"
+}

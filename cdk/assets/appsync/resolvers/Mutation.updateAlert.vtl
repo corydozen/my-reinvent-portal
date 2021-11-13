@@ -1,0 +1,15 @@
+{
+  "version": "2018-05-29",
+  "operation": "UpdateItem",
+  "key": {
+    "PK": { "S": "user#$ctx.identity.sub" },
+    "SK": { "S": "alert#$ctx.args.uuid" }
+  },
+  "update": {
+    "expression": "set alertType = :alertType, parameters = :parameters",
+    "expressionValues": {
+      ":alertType": { "S": "$ctx.args.alertType" },
+      ":parameters": { "S": "$ctx.args.parameters" },
+    }
+  }
+}

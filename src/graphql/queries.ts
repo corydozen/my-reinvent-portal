@@ -1,7 +1,8 @@
-export const getMe = `query GetMe {
-  getMe {
+const getMeReturnFields = `
     PK
     SK
+    GSI1PK
+    GSI1SK
     email
     awsPassword
 
@@ -34,6 +35,15 @@ export const getMe = `query GetMe {
     alertType
     parameters
     joinParametersWith
+
+    original`;
+export const getMe = `query GetMe {
+  getMe {${getMeReturnFields}
+  }
+}`;
+
+export const getMyGsiFriends = `query GetMyGsiFriends {
+  getMyGsiFriends {${getMeReturnFields}
   }
 }`;
 
@@ -64,7 +74,7 @@ export const getMySessions = `query GetMySessions {
     package
     price
     room
-    sessionsType
+    sessionType
     track
   }
 }`;

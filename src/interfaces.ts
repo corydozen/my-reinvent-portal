@@ -6,6 +6,8 @@ export interface User {
   email: string;
   awsPassword: string;
   mySessions: Session[];
+  myFriends: Friend[];
+  myAlerts: Alert[];
 }
 
 export interface DbGetMeReturn {
@@ -21,9 +23,9 @@ export interface DbGetMeReturn {
   duration: number;
   endTime: number;
   isConflicting: string;
-  isEmbargoed: Boolean;
-  isFavoritedByMe: Boolean;
-  isPaidSession: Boolean;
+  isEmbargoed: boolean;
+  isFavoritedByMe: boolean;
+  isPaidSession: boolean;
   level: string;
   location: string;
   myReservationStatus: string;
@@ -40,39 +42,14 @@ export interface DbGetMeReturn {
   sessionType: string;
   track: string;
 
-  alertType: string;
+  alertType: AlertType;
   parameters: string;
-  joinParametersWith: string;
+  joinParametersWith: AlertJoinParametersWithType;
+  updateOrNew: AlertUpdateOrNewType;
+
+  original: boolean;
 }
 
-export interface DbSession {
-  PK: string;
-  SK: string;
-  action: string;
-  alias: string;
-  createdAt: number;
-  description: string;
-  duration: number;
-  endTime: number;
-  isConflicting: string;
-  isEmbargoed: Boolean;
-  isFavoritedByMe: Boolean;
-  isPaidSession: Boolean;
-  level: string;
-  location: string;
-  myReservationStatus: string;
-  name: string;
-  startTime: number;
-  status: string;
-  type: string;
-  capacities: string;
-  customFieldDetails: string;
-  package: string;
-  price: string;
-  room: string;
-  sessionType: string;
-  track: string;
-}
 export interface Session {
   sessionId: string;
   action?: string;
@@ -82,9 +59,9 @@ export interface Session {
   duration: number;
   endTime: number;
   isConflicting?: string;
-  isEmbargoed?: Boolean;
-  isFavoritedByMe?: Boolean;
-  isPaidSession?: Boolean;
+  isEmbargoed?: boolean;
+  isFavoritedByMe?: boolean;
+  isPaidSession?: boolean;
   level?: string;
   location?: string;
   myReservationStatus?: string;
@@ -101,6 +78,8 @@ export interface Session {
   track?: string;
 }
 export type AlertType = "sns" | "autoregister";
+export type AlertJoinParametersWithType = "and" | "or";
+export type AlertUpdateOrNewType = "update" | "new" | "both";
 export interface DbAlert {
   PK: string;
   SK: string;
@@ -123,11 +102,13 @@ export interface AlertParameter {
 export interface Alert {
   id: string;
   alertType: AlertType;
+  updateOrNew: AlertUpdateOrNewType;
   parameters: AlertParameter[];
-  joinParametersWith: "and" | "or";
+  joinParametersWith: AlertJoinParametersWithType;
 }
 
 export interface Friend {
   email: string;
   status: string;
+  requestedBy: "me" | "notme";
 }

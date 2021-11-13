@@ -1,10 +1,12 @@
 type Query {
   getMe: [GetMeReturn]
+  getMyGsiFriends: [GetMeReturn]
 }
 
 type Mutation {
   savePassword(awsPassword: String): User
   refreshMySessions: [Session]
+  updateAlert(updateAlertInput: UpdateAlertInput): Alert
 }
 
 schema {
@@ -15,6 +17,8 @@ schema {
 type GetMeReturn {
   PK: String
   SK: String
+  GSI1PK: String
+  GSI1SK: String
   email: String
   awsPassword: String
 
@@ -54,7 +58,9 @@ type GetMeReturn {
 type Friend {
   PK: String
   SK: String
-  email: String
+  GSI1PK: String
+  GSI1SK: String
+  status: String
 }
 
 type Alert {

@@ -33,5 +33,30 @@ export class DynamoDb extends cdk.Stack {
     writeScaling.scaleOnUtilization({
       targetUtilizationPercent: 70,
     });
+
+    this.table.addGlobalSecondaryIndex({
+      indexName: "GSI1",
+      partitionKey: {
+        name: "GSI1PK",
+        type: dynamodb.AttributeType.STRING,
+      },
+      sortKey: { name: "GSI1SK", type: dynamodb.AttributeType.STRING },
+    });
+
+    const gsi1ReadCapacity =
+      this.table.autoScaleGlobalSecondaryIndexReadCapacity("GSI1", {
+        minCapacity: 1,
+        maxCapacity: 50,
+      });
+
+    gsi1ReadCapacity.scaleOnUtilization({ targetUtilizationPercent: 70 });
+
+    const gsi1WriteCapacity =
+      this.table.autoScaleGlobalSecondaryIndexWriteCapacity("GSI1", {
+        minCapacity: 1,
+        maxCapacity: 50,
+      });
+
+    gsi1WriteCapacity.scaleOnUtilization({ targetUtilizationPercent: 70 });
   }
 }

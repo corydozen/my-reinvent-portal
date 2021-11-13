@@ -34,7 +34,7 @@ export const refreshMySessions = `mutation RefreshMySessions {
     package
     price
     room
-    sessionsType
+    sessionType
     track
   }
 }`;
