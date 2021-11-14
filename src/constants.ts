@@ -6,6 +6,33 @@ export const config = {
   region: "us-east-1",
 };
 
+export const sessionTypes = [
+  "Breakout Session",
+  "Builders' Session",
+  "Bootcamp",
+  "Leadership Session",
+  "Chalk Talk",
+  "Workshop",
+  "Jam",
+  "Builders' Fair",
+  "Meals",
+  "Lab",
+  "Quirky Event",
+  "Other",
+  "Demo Theater",
+  "Lounge",
+  "Lightning Talk- Executive Summit",
+  "Analyst Summit",
+  "Press",
+  "Keynotes",
+  "Marquee Session- Executive Summit",
+  "AWS Staff",
+  "GameDay",
+  "Partner Theater",
+  "Ask a Strategist- Executive Summit",
+  "Lightning Talk",
+];
+
 export const SET_EMAIL = "SET_EMAIL";
 export const SET_AWS_PASSWORD = "SET_AWS_PASSWORD";
 export const SET_MY_SESSIONS = "SET_MY_SESSIONS";

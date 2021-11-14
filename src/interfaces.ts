@@ -80,6 +80,11 @@ export interface Session {
 export type AlertType = "sns" | "autoregister";
 export type AlertJoinParametersWithType = "and" | "or";
 export type AlertUpdateOrNewType = "update" | "new" | "both";
+export type AlertParameterType =
+  | "sessionIdEquals"
+  | "sessionIdStartsWith"
+  | "time"
+  | "sessionType";
 export interface DbAlert {
   PK: string;
   SK: string;
@@ -88,16 +93,12 @@ export interface DbAlert {
 }
 //{ "classId": { "startswith": "svs"}, "datetime": { "after": "2021-11-29 09:00" }, "datetime: { "before": "2021-11-29 13:00"} }
 export interface TimeParameters {
-  before?: Date;
-  after?: Date;
+  before?: String;
+  after?: String;
 }
 export interface AlertParameter {
-  parameterType:
-    | "sessionIdEquals"
-    | "sessionIdStartsWith"
-    | "time"
-    | "sessionType";
-  parameterData: string | TimeParameters;
+  parameterType?: AlertParameterType;
+  parameterData?: string | TimeParameters;
 }
 export interface Alert {
   id: string;
