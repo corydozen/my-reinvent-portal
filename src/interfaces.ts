@@ -113,3 +113,11 @@ export interface Friend {
   status: string;
   requestedBy: "me" | "notme";
 }
+
+export interface UpdateAlertInputType {
+  id?: string;
+  alertType: string;
+  updateOrNew: string;
+  parameters: string;
+  joinParametersWith: string;
+}

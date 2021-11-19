@@ -1,17 +1,21 @@
+import { API, graphqlOperation } from "aws-amplify";
 import React, { useState } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { sessionTypes } from "../constants";
+import { updateAlert } from "../graphql/mutations";
 import {
   AlertParameter,
   AlertParameterType,
   ReduxState,
   TimeParameters,
+  UpdateAlertInputType,
 } from "../interfaces";
 import Alert from "./Alert";
 
 const Dashboard = () => {
   const [showNewAlert, setShowNewAlert] = useState<boolean>(false);
+  const [newAlertAlertType, setNewAlertAlertType] = useState<string>("");
   const [newAlertUpdateOrNew, setNewAlertUpdateOrNew] = useState<string>("");
   const [newAlertJoinParametersWith, setNewAlertJoinParametersWith] =
     useState<string>("");
@@ -77,6 +81,22 @@ const Dashboard = () => {
     tempParameters.splice(i, 1);
     setNewAlertParameters(tempParameters);
   };
+  const saveAlert = async () => {
+    const updateAlertInput: UpdateAlertInputType = {
+      alertType: newAlertAlertType,
+      updateOrNew: newAlertUpdateOrNew,
+      parameters: JSON.stringify(newAlertParameters),
+      joinParametersWith: newAlertJoinParametersWith,
+    };
+    const updateAlertResponse = (await API.graphql(
+      graphqlOperation(updateAlert, { updateAlertInput })
+    )) as any;
+    console.log({ updateAlertResponse });
+    setShowNewAlert(false);
+    setNewAlertJoinParametersWith("");
+    setNewAlertUpdateOrNew("");
+    resetParameters();
+  };
   return (
     <Container style={{ maxWidth: "100%" }}>
       <Row>
@@ -92,10 +112,22 @@ const Dashboard = () => {
                 <div className="card-text">
                   <Container>
                     <Row>
+                      <Col>Alert Type</Col>
+                      <Col>
+                        <select
+                          onChange={e => setNewAlertAlertType(e.target.value)}
+                          value={newAlertAlertType}
+                        >
+                          <option selected>Choose...</option>
+                          <option value="sns">Sns</option>
+                          <option value="autoregister">Auto-register</option>
+                        </select>
+                      </Col>
+                    </Row>
+                    <Row>
                       <Col>On Updates Or New Sessions</Col>
                       <Col>
                         <select
-                          id="inputGroupSelect01"
                           onChange={e => setNewAlertUpdateOrNew(e.target.value)}
                           value={newAlertUpdateOrNew}
                         >
@@ -110,7 +142,6 @@ const Dashboard = () => {
                       <Col>Join Parameters With</Col>
                       <Col>
                         <select
-                          id="inputGroupSelect01"
                           onChange={e =>
                             setNewAlertJoinParametersWith(e.target.value)
                           }
@@ -272,6 +303,9 @@ const Dashboard = () => {
                     </Container>
                     <Button onClick={addParameter}>Add Parameter</Button>
                   </Container>
+                </div>
+                <div className="card-footer float-end">
+                  <Button onClick={saveAlert}>Save Alert</Button>
                 </div>
               </div>
             </Card>

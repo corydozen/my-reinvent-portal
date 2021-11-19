@@ -38,3 +38,9 @@ export const refreshMySessions = `mutation RefreshMySessions {
     track
   }
 }`;
+
+export const updateAlert = `mutation UpdateAlert($updateAlertInput: UpdateAlertInput) {
+  updateAlert (updateAlertInput: $updateAlertInput) {
+    PK
+  }
+}`;
