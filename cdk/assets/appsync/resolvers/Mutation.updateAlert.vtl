@@ -3,7 +3,7 @@
   "operation": "UpdateItem",
   "key": {
     "PK": { "S": "user#$ctx.identity.sub" },
-    "SK": { "S": "alert#$ctx.args.uuid" }
+    "SK": { "S": "alert#$util.autoId()" }
   },
   "update": {
     "expression": "set alertType = :alertType, parameters = :parameters",
