@@ -65,7 +65,7 @@ export class AppsyncResolvers extends cdk.Stack {
       typeName: "Mutation",
       fieldName: "updateAlert",
       props,
-      responseType: "Single",
+      responseType: "Lambda",
       dataSource: props.appsync.dynamodbDataSource,
     });
   }

@@ -15,7 +15,6 @@ schema {
 }
 
 input UpdateAlertInput {
-  id: String
   alertType: String
   updateOrNew: String
   parameters: String

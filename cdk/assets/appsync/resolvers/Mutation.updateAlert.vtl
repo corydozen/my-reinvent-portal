@@ -1,15 +1,14 @@
 {
-  "version": "2018-05-29",
-  "operation": "UpdateItem",
-  "key": {
-    "PK": { "S": "user#$ctx.identity.sub" },
-    "SK": { "S": "alert#$util.autoId()" }
-  },
-  "update": {
-    "expression": "set alertType = :alertType, parameters = :parameters",
-    "expressionValues": {
-      ":alertType": { "S": "$ctx.args.alertType" },
-      ":parameters": { "S": "$ctx.args.parameters" },
+    "version" : "2018-05-29",
+    "operation" : "PutItem",
+    "key": {
+      "PK": { "S": "user#$context.identity.sub" },
+      "SK": { "S": "alert#$util.autoId()" }
+    },
+    "attributeValues" : {
+      "alertType": { "S": "$ctx.args.updateAlertInput.alertType" },
+      "updateOrNew": { "S": "$ctx.args.updateAlertInput.updateOrNew" },
+      "joinParametersWith": { "S": "$ctx.args.updateAlertInput.joinParametersWith" },
+      "parameters": { "S": "$ctx.args.updateAlertInput.parameters" }
     }
-  }
 }
