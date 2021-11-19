@@ -14,7 +14,7 @@ schema {
   mutation: Mutation
 }
 
-type UpdateAlertInput {
+input UpdateAlertInput {
   id: String
   alertType: String
   updateOrNew: String
