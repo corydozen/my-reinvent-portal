@@ -7,11 +7,16 @@ type Mutation {
   savePassword(awsPassword: String): User
   refreshMySessions: [Session]
   updateAlert(updateAlertInput: UpdateAlertInput): Alert
+  deleteAlert(deleteAlertInput: DeleteAlertInput): Alert
 }
 
 schema {
   query: Query
   mutation: Mutation
+}
+
+input DeleteAlertInput {
+  id: String
 }
 
 input UpdateAlertInput {

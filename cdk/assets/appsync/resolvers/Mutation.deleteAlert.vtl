@@ -1,0 +1,8 @@
+{
+    "version" : "2018-05-29",
+    "operation" : "DeleteItem",
+    "key": {
+      "PK": { "S": "user#$context.identity.sub" },
+      "SK": { "S": "alert#$ctx.args.deleteAlertInput.id" }
+    }
+}

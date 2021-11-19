@@ -68,5 +68,13 @@ export class AppsyncResolvers extends cdk.Stack {
       responseType: "Lambda",
       dataSource: props.appsync.dynamodbDataSource,
     });
+
+    createResolver({
+      typeName: "Mutation",
+      fieldName: "deleteAlert",
+      props,
+      responseType: "Lambda",
+      dataSource: props.appsync.dynamodbDataSource,
+    });
   }
 }
