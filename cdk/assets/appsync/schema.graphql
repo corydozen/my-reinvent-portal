@@ -61,6 +61,7 @@ type GetMeReturn {
   track: String
 
   alertType: String
+  updateOrNew: String
   parameters: String
   joinParametersWith: String
 
