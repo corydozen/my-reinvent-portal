@@ -1,3 +1,4 @@
+import { DynamoEventSource } from "@aws-cdk/aws-lambda-event-sources";
 import { config } from "../config";
 import { LambdaProps } from "./interfaces";
 import cdk = require("@aws-cdk/core");
@@ -5,6 +6,7 @@ import events = require("@aws-cdk/aws-events");
 import eventsTargets = require("@aws-cdk/aws-events-targets");
 import iam = require("@aws-cdk/aws-iam");
 import lambda = require("@aws-cdk/aws-lambda");
+import sqs = require("@aws-cdk/aws-sqs");
 import path = require("path");
 
 const {
@@ -16,6 +18,8 @@ const {
   region,
   emailAddress,
 } = config;
+
+const exclude = ["*.ts", "catalogactions.zip", "README.md", "LICENSE"];
 
 export class Lambda extends cdk.Stack {
   public readonly catalogActionsFunction: lambda.Function;
@@ -30,7 +34,7 @@ export class Lambda extends cdk.Stack {
         code: lambda.Code.fromAsset(
           path.join(__dirname, "../assets/lambda/catalogactions"),
           {
-            exclude: ["*.ts", "catalogactions.zip", "README.md", "LICENSE"],
+            exclude,
           }
         ),
         environment: {
@@ -82,6 +86,51 @@ export class Lambda extends cdk.Stack {
       schedule: eventDaySchedule,
       targets: [refreshCatalogFunctionTarget],
     });
+
+    const dynamoDbStreamsFn = new lambda.Function(
+      this,
+      `${proj}DynamoDbStreams`,
+      {
+        runtime: lambda.Runtime.NODEJS_14_X,
+        handler: "app.handler",
+        code: lambda.Code.fromAsset(
+          path.join(__dirname, "../assets/lambda/dynamodbstreams"),
+          { exclude }
+        ),
+        environment: {
+          sub,
+          reinventAppsyncUrl,
+          reinventCognitoClientId,
+          reinventCognitoPoolId,
+          region,
+          tablename: props.dynamodb.table.tableName,
+          emailAddress,
+        },
+      }
+    );
+    const dynamoDbStreamsFunctionRole = dynamoDbStreamsFn.role as iam.Role;
+    const sesPolicy = new iam.Policy(this, `${proj}PolicyForSes`, {
+      policyName: `${proj}PolicyForSes`,
+    });
+
+    const policyStatementSes = new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      resources: ["*"],
+      actions: ["ses:sendEmail", "ses:sendRawEmail"],
+    });
+
+    sesPolicy.addStatements(policyStatementSes);
+    dynamoDbStreamsFunctionRole.attachInlinePolicy(dynamoPolicy);
+    dynamoDbStreamsFunctionRole.attachInlinePolicy(sesPolicy);
+
+    dynamoDbStreamsFn.addEventSource(
+      new DynamoEventSource(props.dynamodb.table, {
+        startingPosition: lambda.StartingPosition.TRIM_HORIZON,
+        batchSize: 200,
+        bisectBatchOnError: true,
+        retryAttempts: 10,
+      })
+    );
 
     new cdk.CfnOutput(this, "refreshCatalogFunctionCliCmd", {
       description: "refreshCatalogFunctionCliCmd",

@@ -2,7 +2,6 @@ import { config } from "../config";
 import { AppsyncProps } from "./interfaces";
 import cdk = require("@aws-cdk/core");
 import appsync = require("@aws-cdk/aws-appsync");
-import lambda = require("@aws-cdk/aws-lambda");
 
 const { proj } = config;
 

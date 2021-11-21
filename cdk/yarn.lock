@@ -516,6 +516,27 @@
     "@aws-cdk/cx-api" "1.128.0"
     constructs "^3.3.69"
 
+"@aws-cdk/aws-lambda-event-sources@1.128.0":
+  version "1.128.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-lambda-event-sources/-/aws-lambda-event-sources-1.128.0.tgz#44b0824c1d3183f4cafdf9efdb995d967fc72884"
+  integrity sha512-8hPfPf0mwIb2UCcr712bBE5YJlzPhgXudYthsGrwAvd9M1vVXCXint4bEwnGZXofvjL2h6s3s+4JAdY2cTEPQw==
+  dependencies:
+    "@aws-cdk/aws-apigateway" "1.128.0"
+    "@aws-cdk/aws-dynamodb" "1.128.0"
+    "@aws-cdk/aws-ec2" "1.128.0"
+    "@aws-cdk/aws-events" "1.128.0"
+    "@aws-cdk/aws-iam" "1.128.0"
+    "@aws-cdk/aws-kinesis" "1.128.0"
+    "@aws-cdk/aws-lambda" "1.128.0"
+    "@aws-cdk/aws-s3" "1.128.0"
+    "@aws-cdk/aws-s3-notifications" "1.128.0"
+    "@aws-cdk/aws-secretsmanager" "1.128.0"
+    "@aws-cdk/aws-sns" "1.128.0"
+    "@aws-cdk/aws-sns-subscriptions" "1.128.0"
+    "@aws-cdk/aws-sqs" "1.128.0"
+    "@aws-cdk/core" "1.128.0"
+    constructs "^3.3.69"
+
 "@aws-cdk/aws-lambda@1.128.0":
   version "1.128.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-lambda/-/aws-lambda-1.128.0.tgz#0514e551aa6728352d9a477f19030fa7a89e33f9"
@@ -632,6 +653,19 @@
     case "1.6.3"
     constructs "^3.3.69"
 
+"@aws-cdk/aws-s3-notifications@1.128.0":
+  version "1.128.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-s3-notifications/-/aws-s3-notifications-1.128.0.tgz#60e4b28e70a5a104b1fd26735aa1cfb68aa73fd6"
+  integrity sha512-feGWrI+25eWpmW5vKGfe0mH+JGiugTHKq0/KStghYHVKnj5COOTS0GYsTnvG5EY9VgwLZwKAIxac+g3iqLNMhw==
+  dependencies:
+    "@aws-cdk/aws-iam" "1.128.0"
+    "@aws-cdk/aws-lambda" "1.128.0"
+    "@aws-cdk/aws-s3" "1.128.0"
+    "@aws-cdk/aws-sns" "1.128.0"
+    "@aws-cdk/aws-sqs" "1.128.0"
+    "@aws-cdk/core" "1.128.0"
+    constructs "^3.3.69"
+
 "@aws-cdk/aws-s3@1.128.0":
   version "1.128.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-s3/-/aws-s3-1.128.0.tgz#1eb5588f5a9ee5328a2baa3b4c73ba1b39877a4a"
@@ -674,6 +708,16 @@
     "@aws-cdk/aws-ec2" "1.128.0"
     "@aws-cdk/aws-elasticloadbalancingv2" "1.128.0"
     "@aws-cdk/aws-route53" "1.128.0"
+    "@aws-cdk/core" "1.128.0"
+    constructs "^3.3.69"
+
+"@aws-cdk/aws-ses@1.128.0":
+  version "1.128.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-ses/-/aws-ses-1.128.0.tgz#5a6ab489696aaf4c1d7d1e9582824b3af0f7d27b"
+  integrity sha512-78+//eBd2MVHmQrffZPKCSvpgncYsFEkNbUz6dW9nS7AXZelT1SBsagLJA4/swHJpkzqucCVsZz6r+A8uZ4psg==
+  dependencies:
+    "@aws-cdk/aws-iam" "1.128.0"
+    "@aws-cdk/aws-lambda" "1.128.0"
     "@aws-cdk/core" "1.128.0"
     constructs "^3.3.69"
 

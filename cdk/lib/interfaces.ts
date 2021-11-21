@@ -4,6 +4,7 @@ import dynamodb = require("@aws-cdk/aws-dynamodb");
 import iam = require("@aws-cdk/aws-iam");
 import lambda = require("@aws-cdk/aws-lambda");
 import s3 = require("@aws-cdk/aws-s3");
+import sns = require("@aws-cdk/aws-sns");
 import cdk = require("@aws-cdk/core");
 
 export interface AppsyncPreProps {
