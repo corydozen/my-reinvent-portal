@@ -130,7 +130,7 @@ export class Lambda extends cdk.Stack {
     dynamoDbStreamsFn.addEventSource(
       new DynamoEventSource(props.dynamodb.table, {
         startingPosition: lambda.StartingPosition.TRIM_HORIZON,
-        batchSize: 2000,
+        batchSize: 1000,
         bisectBatchOnError: true,
         retryAttempts: 10,
       })
