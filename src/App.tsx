@@ -60,7 +60,10 @@ const App = () => {
       let sub = "";
       for (let iterator = 0; iterator < getMeReturn.length; iterator++) {
         const row = getMeReturn[iterator];
-        const rowType = row.SK.substring(0, row.SK.indexOf("#"));
+        const rowType = row.SK.substring(
+          0,
+          row.SK.indexOf("#") !== -1 ? row.SK.indexOf("#") : 999
+        );
         switch (rowType) {
           case "info":
             sub = row.PK.substring(row.PK.indexOf("#") + 1);
@@ -77,7 +80,7 @@ const App = () => {
             alerts.push(row);
             break;
           default:
-            console.error(`Unknown rowType in getMeReturn ${rowType}`);
+            console.error(`Unknown rowType in getMeReturn ${rowType}`, { row });
         }
       }
       for (

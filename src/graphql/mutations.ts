@@ -44,3 +44,9 @@ export const updateAlert = `mutation UpdateAlert($updateAlertInput: UpdateAlertI
     PK
   }
 }`;
+
+export const deleteAlert = `mutation DeleteAlert($deleteAlertInput: DeleteAlertInput) {
+  deleteAlert (deleteAlertInput: $deleteAlertInput) {
+    PK
+  }
+}`;

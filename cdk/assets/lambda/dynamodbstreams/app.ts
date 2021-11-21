@@ -32,7 +32,7 @@ export const handler = async (event: DynamoDBStreamEvent): Promise<any> => {
           case "user":
             break;
           case "class":
-            sendAlerts(row, alertsQueryResult.Items);
+            await sendAlerts(row, alertsQueryResult.Items);
             break;
           case "alert":
             break;

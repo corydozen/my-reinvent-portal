@@ -11,6 +11,9 @@ export const sendAlerts = async (
     const joinParametersWith = alert.joinParametersWith
       .S as AlertJoinParametersWithType;
     if (alert.parameters.S && row.dynamodb && row.dynamodb.NewImage) {
+      const sessionType = JSON.parse(
+        row.dynamodb?.NewImage.sessionType.S!
+      ) as any;
       const parameters = JSON.parse(alert.parameters.S) as AlertParameter[];
       console.log({ parameters });
       let sendAlert = joinParametersWith === "or" ? false : true;
@@ -18,35 +21,34 @@ export const sendAlerts = async (
         const parameter = parameters[iterator];
         switch (parameter.parameterType) {
           case "sessionType":
-            if (row.dynamodb?.NewImage.sessionType.S) {
-              const sessionType = JSON.parse(
-                row.dynamodb?.NewImage.sessionType.S
-              ) as any;
-              if (
-                sessionType.name === parameter.parameterData &&
-                joinParametersWith === "or"
-              ) {
-                sendAlert = true;
-              }
-              if (
-                sessionType.name !== parameter.parameterData &&
-                joinParametersWith === "and"
-              ) {
-                sendAlert = false;
-              }
-              break;
+            if (
+              sessionType.name === parameter.parameterData &&
+              joinParametersWith === "or"
+            ) {
+              sendAlert = true;
             }
+            if (
+              sessionType.name !== parameter.parameterData &&
+              joinParametersWith === "and"
+            ) {
+              sendAlert = false;
+            }
+            break;
         }
       }
       if (sendAlert) {
         const params: EmailTemplateInterface = {
-          body: `<h1>Reinvent Catalog Alert</h1><p>alert: ${JSON.stringify(
+          body: `<h1>Reinvent Catalog Alert</h1><p>Name: ${
+            row.dynamodb.NewImage.name.S
+          }</p><p>SessionType: ${sessionType.name}</p><p>Description: ${
+            row.dynamodb.NewImage.description.S
+          }</p><p>session: ${JSON.stringify(row)}</p><p>alert: ${JSON.stringify(
             alert
-          )}</p><p>session: ${JSON.stringify(row)}</p>`,
+          )}</p>`,
           buttonHref: "",
           buttonText: "",
-          footerHtml: "FOOTER",
-          header: "HEADER",
+          footerHtml: "",
+          header: "Reinvent Catalog Alert",
           logoHref: "",
           showButton: false,
         };
@@ -56,6 +58,7 @@ export const sendAlerts = async (
           alert.emailAddress.S!,
           "Reinvent Catalog Alert"
         );
+        console.log(`email sent to ${alert.emailAddress.S!}`);
       }
     }
   }

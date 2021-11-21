@@ -3,10 +3,14 @@ import React, { useState } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { sessionTypes } from "../constants";
-import { updateAlert } from "../graphql/mutations";
+import {
+  deleteAlert as deleteAlertMutation,
+  updateAlert,
+} from "../graphql/mutations";
 import {
   AlertParameter,
   AlertParameterType,
+  DeleteAlertInputType,
   ReduxState,
   TimeParameters,
   UpdateAlertInputType,
@@ -14,6 +18,7 @@ import {
 import Alert from "./Alert";
 
 const Dashboard = () => {
+  const emailAddress = useSelector((state: ReduxState) => state.user.email);
   const [showNewAlert, setShowNewAlert] = useState<boolean>(false);
   const [newAlertAlertType, setNewAlertAlertType] = useState<string>("");
   const [newAlertUpdateOrNew, setNewAlertUpdateOrNew] = useState<string>("");
@@ -82,11 +87,17 @@ const Dashboard = () => {
     setNewAlertParameters(tempParameters);
   };
   const saveAlert = async () => {
+    const parameters = JSON.stringify(newAlertParameters).replaceAll(
+      '"',
+      '\\"'
+    );
+    console.log({ parameters });
     const updateAlertInput: UpdateAlertInputType = {
       alertType: newAlertAlertType,
       updateOrNew: newAlertUpdateOrNew,
-      parameters: JSON.stringify(newAlertParameters),
+      parameters,
       joinParametersWith: newAlertJoinParametersWith,
+      emailAddress,
     };
     const updateAlertResponse = (await API.graphql(
       graphqlOperation(updateAlert, { updateAlertInput })
@@ -97,13 +108,23 @@ const Dashboard = () => {
     setNewAlertUpdateOrNew("");
     resetParameters();
   };
+  const deleteAlert = async (id: string) => {
+    const deleteAlertInput: DeleteAlertInputType = {
+      id,
+    };
+    const deleteAlertResponse = (await API.graphql(
+      graphqlOperation(deleteAlertMutation, { deleteAlertInput })
+    )) as any;
+    console.log({ deleteAlertResponse });
+    window.location.reload();
+  };
   return (
     <Container style={{ maxWidth: "100%" }}>
       <Row>
         <Col>
           <h2>My Alerts</h2>
           {alerts.map(alert => (
-            <Alert alert={alert}></Alert>
+            <Alert deleteAlert={deleteAlert} alert={alert}></Alert>
           ))}
           {showNewAlert ? (
             <Card>
@@ -304,8 +325,10 @@ const Dashboard = () => {
                     <Button onClick={addParameter}>Add Parameter</Button>
                   </Container>
                 </div>
-                <div className="card-footer float-end">
-                  <Button onClick={saveAlert}>Save Alert</Button>
+                <div className="card-footer ">
+                  <Button className="float-end" onClick={saveAlert}>
+                    Save Alert
+                  </Button>
                 </div>
               </div>
             </Card>

@@ -120,4 +120,9 @@ export interface UpdateAlertInputType {
   updateOrNew: string;
   parameters: string;
   joinParametersWith: string;
+  emailAddress: string;
+}
+
+export interface DeleteAlertInputType {
+  id: string;
 }

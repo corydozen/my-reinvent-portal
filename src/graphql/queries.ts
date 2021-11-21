@@ -35,6 +35,7 @@ const getMeReturnFields = `
     alertType
     parameters
     joinParametersWith
+    updateOrNew
 
     original`;
 export const getMe = `query GetMe {
