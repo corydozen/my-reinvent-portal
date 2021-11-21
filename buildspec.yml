@@ -16,11 +16,23 @@ phases:
       - yarn
       - cd ../useractions
       - yarn
+      - cd ../dynamodbstreams
+      - yarn
       - cd ../../..
       - yarn
       - yarn build
       - npx cdk bootstrap
       - npx cdk synth
+      - cd assets/lambda/catalogactions
+      - rm -rf node_modules
+      - yarn install --production --frozen-lockfile
+      - cd ../useractions
+      - rm -rf node_modules
+      - yarn install --production --frozen-lockfile
+      - cd ../dynamodbstreams
+      - rm -rf node_modules
+      - yarn install --production --frozen-lockfile
+      - cd ../..
       - npx cdk deploy --all --require-approval never
       - aws cloudformation describe-stacks --stack-name "${proj}Output" --region us-east-1 > cloudformationoutput.json
       - echo "export default {};" > ../src/config.ts
