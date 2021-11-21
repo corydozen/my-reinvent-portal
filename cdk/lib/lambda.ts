@@ -66,6 +66,9 @@ export class Lambda extends cdk.Stack {
     dynamoPolicyStatement.addActions("dynamodb:BatchWriteItem");
 
     dynamoPolicyStatement.addResources(props.dynamodb.table.tableArn);
+    dynamoPolicyStatement.addResources(
+      `${props.dynamodb.table.tableArn}/index/GSI1`
+    );
 
     dynamoPolicy.addStatements(dynamoPolicyStatement);
     refreshCatalogFunctionRole.attachInlinePolicy(dynamoPolicy);
