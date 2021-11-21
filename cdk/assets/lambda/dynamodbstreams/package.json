@@ -1,9 +1,6 @@
 {
   "name": "catalogactions",
   "version": "0.1.0",
-  "scripts": {
-    "i": "yarn --modules-folder dev_node_modules && cp dev_node_modules node_modules"
-  },
   "devDependencies": {
     "@types/aws-lambda": "8.10.85",
     "@types/node": "10.17.27",

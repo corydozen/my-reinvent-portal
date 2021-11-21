@@ -74,8 +74,8 @@ export class Lambda extends cdk.Stack {
     refreshCatalogFunctionRole.attachInlinePolicy(dynamoPolicy);
 
     const eventDaySchedule = events.Schedule.cron({
-      hour: "0",
-      minute: "55",
+      hour: "*",
+      minute: "0",
       month: "*",
       year: "*",
       weekDay: "*",

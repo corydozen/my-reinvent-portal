@@ -1,11 +1,16 @@
 import { DynamoDBRecord } from "aws-lambda";
-import { emailTemplate, EmailTemplateInterface } from "./emailtemplate";
 import * as AWS from "aws-sdk";
-export const sendAlerts = async (
+
+export interface AlertToSend {
+  body: string;
+  emailAddress: string;
+}
+
+export const findAlertsToSend = async (
   row: DynamoDBRecord,
-  alerts: AWS.DynamoDB.ItemList
-): Promise<any> => {
-  //
+  alerts: AWS.DynamoDB.ItemList,
+  alertsToSend: AlertToSend[]
+): Promise<AlertToSend[]> => {
   for (let iterator = 0; iterator > alerts.length; iterator++) {
     const alert = alerts[iterator];
     const joinParametersWith = alert.joinParametersWith
@@ -37,59 +42,33 @@ export const sendAlerts = async (
         }
       }
       if (sendAlert) {
-        const params: EmailTemplateInterface = {
-          body: `<h1>Reinvent Catalog Alert</h1><p>Name: ${
+        const emailIndex = alertsToSend.findIndex(
+          e => e.emailAddress === alert.emailAddress.S
+        );
+        if (emailIndex === -1) {
+          alertsToSend.push({
+            body: `<h1>Reinvent Catalog Alert</h1><p>Name: ${
+              row.dynamodb.NewImage.name.S
+            }</p><p>SessionType: ${sessionType.name}</p><p>Description: ${
+              row.dynamodb.NewImage.description.S
+            }</p><p>session: ${JSON.stringify(
+              row
+            )}</p><p>alert: ${JSON.stringify(alert)}</p>`,
+            emailAddress: alert.emailAddress.S!,
+          });
+        } else {
+          alertsToSend[emailIndex].body += `<hr/><p>Name: ${
             row.dynamodb.NewImage.name.S
           }</p><p>SessionType: ${sessionType.name}</p><p>Description: ${
             row.dynamodb.NewImage.description.S
           }</p><p>session: ${JSON.stringify(row)}</p><p>alert: ${JSON.stringify(
             alert
-          )}</p>`,
-          buttonHref: "",
-          buttonText: "",
-          footerHtml: "",
-          header: "Reinvent Catalog Alert",
-          logoHref: "",
-          showButton: false,
-        };
-        await sendEmail(
-          params,
-          process.env.emailAddress!,
-          alert.emailAddress.S!,
-          "Reinvent Catalog Alert"
-        );
-        console.log(`email sent to ${alert.emailAddress.S!}`);
+          )}</p>`;
+        }
       }
     }
   }
-};
-
-const sendEmail = async (
-  params: EmailTemplateInterface,
-  sourceEmail: string,
-  recipientEmail: string,
-  subject: string
-) => {
-  const template: string = emailTemplate(params);
-  const sesClient = new AWS.SES();
-  const sendEmailRequest = {
-    Source: sourceEmail,
-    Destination: {
-      ToAddresses: [recipientEmail],
-    },
-    Message: {
-      Subject: {
-        Data: subject,
-      },
-      Body: {
-        Html: {
-          Data: template,
-          Charset: "utf8",
-        },
-      },
-    },
-  };
-  return await sesClient.sendEmail(sendEmailRequest).promise();
+  return alertsToSend;
 };
 
 // copied from src/interfaces.ts
