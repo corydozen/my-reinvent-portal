@@ -1,14 +1,17 @@
+#set( $uuid = "$util.autoId()" )
 {
     "version" : "2018-05-29",
     "operation" : "PutItem",
     "key": {
       "PK": { "S": "user#$context.identity.sub" },
-      "SK": { "S": "alert#$util.autoId()" }
+      "SK": { "S": "alert#$uuid" }
     },
     "attributeValues" : {
       "alertType": { "S": "$ctx.args.updateAlertInput.alertType" },
       "updateOrNew": { "S": "$ctx.args.updateAlertInput.updateOrNew" },
       "joinParametersWith": { "S": "$ctx.args.updateAlertInput.joinParametersWith" },
-      "parameters": { "S": "$ctx.args.updateAlertInput.parameters" }
+      "parameters": { "S": "$ctx.args.updateAlertInput.parameters" },
+      "GSI1PK": { "S": "alert" }
+      "GSI1SK": { "S": "$uuid" }
     }
 }
