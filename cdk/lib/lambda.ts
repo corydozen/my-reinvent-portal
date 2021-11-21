@@ -109,6 +109,7 @@ export class Lambda extends cdk.Stack {
           tablename: props.dynamodb.table.tableName,
           emailAddress,
         },
+        timeout: cdk.Duration.minutes(5),
       }
     );
     const dynamoDbStreamsFunctionRole = dynamoDbStreamsFn.role as iam.Role;
@@ -129,7 +130,7 @@ export class Lambda extends cdk.Stack {
     dynamoDbStreamsFn.addEventSource(
       new DynamoEventSource(props.dynamodb.table, {
         startingPosition: lambda.StartingPosition.TRIM_HORIZON,
-        batchSize: 200,
+        batchSize: 2000,
         bisectBatchOnError: true,
         retryAttempts: 10,
       })
