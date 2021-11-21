@@ -11,7 +11,8 @@
       "updateOrNew": { "S": "$ctx.args.updateAlertInput.updateOrNew" },
       "joinParametersWith": { "S": "$ctx.args.updateAlertInput.joinParametersWith" },
       "parameters": { "S": "$ctx.args.updateAlertInput.parameters" },
-      "GSI1PK": { "S": "alert" }
-      "GSI1SK": { "S": "$uuid" }
+      "GSI1PK": { "S": "alert" },
+      "GSI1SK": { "S": "$uuid" },
+      "emailAddress": { "S": "$ctx.args.updateAlertInput.emailAddress" }
     }
 }

@@ -24,6 +24,7 @@ input UpdateAlertInput {
   updateOrNew: String
   parameters: String
   joinParametersWith: String
+  emailAddress: String
 }
 
 type GetMeReturn {
