@@ -23,7 +23,7 @@ const Dashboard = () => {
   const [newAlertAlertType, setNewAlertAlertType] = useState<string>("");
   const [newAlertUpdateOrNew, setNewAlertUpdateOrNew] = useState<string>("");
   const [newAlertJoinParametersWith, setNewAlertJoinParametersWith] =
-    useState<string>("");
+    useState<string>("and");
   const [newParameterType, setNewParameterType] =
     useState<AlertParameterType | null>(null);
   const [sessionIdEqualsParameterValue, setSessionIdEqualsParameterValue] =
@@ -132,7 +132,7 @@ const Dashboard = () => {
                 <h4 className="card-title">New Alert</h4>
                 <div className="card-text">
                   <Container>
-                    <Row>
+                    {/* <Row>
                       <Col>Alert Type</Col>
                       <Col>
                         <select
@@ -144,7 +144,7 @@ const Dashboard = () => {
                           <option value="autoregister">Auto-register</option>
                         </select>
                       </Col>
-                    </Row>
+                    </Row> */}
                     <Row>
                       <Col>On Updates Or New Sessions</Col>
                       <Col>
@@ -159,7 +159,7 @@ const Dashboard = () => {
                         </select>
                       </Col>
                     </Row>
-                    <Row>
+                    {/* <Row>
                       <Col>Join Parameters With</Col>
                       <Col>
                         <select
@@ -173,7 +173,7 @@ const Dashboard = () => {
                           <option value="or">Or</option>
                         </select>
                       </Col>
-                    </Row>
+                    </Row> */}
                     {newAlertParameters.map((p, i) => (
                       <Card key={i}>
                         <div className="card-body">
@@ -276,7 +276,7 @@ const Dashboard = () => {
                           </Row>
                           {(timeType === "between" || timeType === "after") && (
                             <Row>
-                              <Col>After</Col>
+                              <Col>After (PST)</Col>
                               <Col>
                                 <input
                                   placeholder="2021-12-01 11:15:00"
@@ -289,7 +289,7 @@ const Dashboard = () => {
                           {(timeType === "between" ||
                             timeType === "before") && (
                             <Row>
-                              <Col>Before</Col>
+                              <Col>Before (PST)</Col>
                               <Col>
                                 <input
                                   placeholder="2021-12-01 14:30:00"

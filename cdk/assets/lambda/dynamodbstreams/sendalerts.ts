@@ -9,7 +9,8 @@ export interface AlertToSend {
 export const findAlertsToSend = async (
   row: DynamoDBRecord,
   alerts: AWS.DynamoDB.ItemList,
-  alertsToSend: AlertToSend[]
+  alertsToSend: AlertToSend[],
+  eventName: "INSERT" | "MODIFY" | "REMOVE"
 ): Promise<AlertToSend[]> => {
   for (let iterator = 0; iterator > alerts.length; iterator++) {
     const alert = alerts[iterator];
@@ -19,51 +20,113 @@ export const findAlertsToSend = async (
       const sessionType = JSON.parse(
         row.dynamodb?.NewImage.sessionType.S!
       ) as any;
+      const sessionId = row.dynamodb.NewImage.alias.S!;
+      const startTime = parseInt(row.dynamodb.NewImage.startTime.N!);
       const parameters = JSON.parse(alert.parameters.S) as AlertParameter[];
       console.log({ parameters });
-      let sendAlert = joinParametersWith === "or" ? false : true;
-      for (let iterator = 0; iterator < parameters.length; iterator++) {
-        const parameter = parameters[iterator];
-        switch (parameter.parameterType) {
-          case "sessionType":
-            if (
-              sessionType.name === parameter.parameterData &&
-              joinParametersWith === "or"
-            ) {
-              sendAlert = true;
-            }
-            if (
-              sessionType.name !== parameter.parameterData &&
-              joinParametersWith === "and"
-            ) {
+      if (
+        alert.updateOrNew.S === "both" ||
+        (eventName === "INSERT" && alert.updateOrNew.S === "new") ||
+        (eventName === "MODIFY" && alert.updateOrNew.S === "update")
+      ) {
+        let sendAlert = joinParametersWith === "or" ? false : true;
+        for (let iterator = 0; iterator < parameters.length; iterator++) {
+          const parameter = parameters[iterator];
+          switch (parameter.parameterType) {
+            case "sessionType":
+              if (
+                sessionType.name === parameter.parameterData &&
+                joinParametersWith === "or"
+              ) {
+                sendAlert = true;
+              }
+              if (
+                sessionType.name !== parameter.parameterData &&
+                joinParametersWith === "and"
+              ) {
+                sendAlert = false;
+              }
+              break;
+            case "sessionIdEquals":
+              if (
+                sessionId === parameter.parameterData &&
+                joinParametersWith === "or"
+              ) {
+                sendAlert = true;
+              }
+              if (
+                sessionId !== parameter.parameterData &&
+                joinParametersWith === "and"
+              ) {
+                sendAlert = false;
+              }
+              break;
+            case "sessionIdStartsWith":
+              if (
+                sessionId.substring(
+                  0,
+                  (parameter.parameterData as string).length
+                ) === parameter.parameterData &&
+                joinParametersWith === "or"
+              ) {
+                sendAlert = true;
+              }
+              if (
+                sessionId.substring(
+                  0,
+                  (parameter.parameterData as string).length
+                ) !== parameter.parameterData &&
+                joinParametersWith === "and"
+              ) {
+                sendAlert = false;
+              }
+              break;
+            case "time":
+              const eightHours = 28800000;
+              // I'm going to ignore the 'or' case for now
+              const { before, after } =
+                parameter.parameterData as TimeParameters;
+              if (before) {
+                const beforeEpoch = parseInt(before) - eightHours;
+                if (beforeEpoch > startTime) {
+                  sendAlert = false;
+                }
+              }
+              if (after) {
+                const afterEpoch = parseInt(after) - eightHours;
+                if (afterEpoch < startTime) {
+                  sendAlert = false;
+                }
+              }
+              break;
+            default:
               sendAlert = false;
-            }
-            break;
+          }
         }
-      }
-      if (sendAlert) {
-        const emailIndex = alertsToSend.findIndex(
-          e => e.emailAddress === alert.emailAddress.S
-        );
-        if (emailIndex === -1) {
-          alertsToSend.push({
-            body: `<h1>Reinvent Catalog Alert</h1><p>Name: ${
+        if (sendAlert) {
+          const emailIndex = alertsToSend.findIndex(
+            e => e.emailAddress === alert.emailAddress.S
+          );
+          if (emailIndex === -1) {
+            alertsToSend.push({
+              body: `<h1>Reinvent Catalog Alert</h1><p>Name: ${
+                row.dynamodb.NewImage.name.S
+              }</p><p>SessionType: ${sessionType.name}</p><p>Description: ${
+                row.dynamodb.NewImage.description.S
+              }</p><p>session: ${JSON.stringify(
+                row
+              )}</p><p>alert: ${JSON.stringify(alert)}</p>`,
+              emailAddress: alert.emailAddress.S!,
+            });
+          } else {
+            alertsToSend[emailIndex].body += `<hr/><p>Name: ${
               row.dynamodb.NewImage.name.S
             }</p><p>SessionType: ${sessionType.name}</p><p>Description: ${
               row.dynamodb.NewImage.description.S
             }</p><p>session: ${JSON.stringify(
               row
-            )}</p><p>alert: ${JSON.stringify(alert)}</p>`,
-            emailAddress: alert.emailAddress.S!,
-          });
-        } else {
-          alertsToSend[emailIndex].body += `<hr/><p>Name: ${
-            row.dynamodb.NewImage.name.S
-          }</p><p>SessionType: ${sessionType.name}</p><p>Description: ${
-            row.dynamodb.NewImage.description.S
-          }</p><p>session: ${JSON.stringify(row)}</p><p>alert: ${JSON.stringify(
-            alert
-          )}</p>`;
+            )}</p><p>alert: ${JSON.stringify(alert)}</p>`;
+          }
         }
       }
     }
@@ -90,8 +153,8 @@ export interface DbAlert {
 }
 //{ "classId": { "startswith": "svs"}, "datetime": { "after": "2021-11-29 09:00" }, "datetime: { "before": "2021-11-29 13:00"} }
 export interface TimeParameters {
-  before?: String;
-  after?: String;
+  before?: string;
+  after?: string;
 }
 export interface AlertParameter {
   parameterType?: AlertParameterType;

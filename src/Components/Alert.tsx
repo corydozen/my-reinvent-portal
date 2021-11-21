@@ -15,18 +15,18 @@ const Alert = (props: AlertProps) => {
         <h4 className="card-title">{alert.alertType}</h4>
         <div className="card-text">
           <Container>
-            <Row>
+            {/* <Row>
               <Col>Alert Type</Col>
               <Col>{alert.alertType}</Col>
-            </Row>
+            </Row> */}
             <Row>
               <Col>Updates Or New</Col>
               <Col>{alert.updateOrNew}</Col>
             </Row>
-            <Row>
+            {/* <Row>
               <Col>Join Parameters With:</Col>
               <Col>{alert.joinParametersWith}</Col>
-            </Row>
+            </Row> */}
             <Row>
               <Col>Parameters:</Col>
               <Col>{JSON.stringify(alert.parameters)}</Col>

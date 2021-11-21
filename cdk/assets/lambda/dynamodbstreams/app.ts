@@ -30,18 +30,22 @@ export const handler = async (event: DynamoDBStreamEvent): Promise<any> => {
           PK.indexOf("#") !== -1 ? PK.indexOf("#") : 999
         );
         console.log({ rowType });
-        switch (rowType) {
-          case "class":
-            alertsToSend = await findAlertsToSend(
-              row,
-              alertsQueryResult.Items,
-              alertsToSend
-            );
-            break;
-          case "user":
-          case "alert":
-          default:
-          // do nothing
+        const { eventName } = row;
+        if (eventName === "MODIFY" || eventName === "INSERT") {
+          switch (rowType) {
+            case "class":
+              alertsToSend = await findAlertsToSend(
+                row,
+                alertsQueryResult.Items,
+                alertsToSend,
+                eventName
+              );
+              break;
+            case "user":
+            case "alert":
+            default:
+            // do nothing
+          }
         }
       }
     }

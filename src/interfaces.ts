@@ -93,8 +93,8 @@ export interface DbAlert {
 }
 //{ "classId": { "startswith": "svs"}, "datetime": { "after": "2021-11-29 09:00" }, "datetime: { "before": "2021-11-29 13:00"} }
 export interface TimeParameters {
-  before?: String;
-  after?: String;
+  before?: string;
+  after?: string;
 }
 export interface AlertParameter {
   parameterType?: AlertParameterType;
