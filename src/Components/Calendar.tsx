@@ -1,7 +1,7 @@
 import API from "@aws-amplify/api";
 import { graphqlOperation } from "aws-amplify";
 import moment from "moment";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Calendar as BigCalendar,
   momentLocalizer,
@@ -33,6 +33,7 @@ interface CalendarEvent {
 const Calendar = () => {
   const dispatch = useDispatch();
   const reduxSchedules = useSelector((state: ReduxState) => state.schedules);
+  const [block, setBlock] = useState<number>(60);
   useEffect(() => {
     getSchedules();
   }, []);
@@ -79,19 +80,28 @@ const Calendar = () => {
     resourceId: i + 1,
     resourceTitle: s.email,
   }));
-
+  const today = new Date();
   return (
     <div>
+      A Block is{" "}
+      <select onChange={e => setBlock(parseInt(e.target.value))} value={block}>
+        <option value="120">Two Hours</option>
+        <option value="60">Hour</option>
+        <option value="30">Half-Hour</option>
+      </select>
       <BigCalendar
         events={events}
         localizer={localizer}
         defaultView={Views.DAY}
         views={["day", "work_week"]}
-        step={60}
+        step={block}
         defaultDate={new Date(2021, 10, 29)}
         resources={resourceMap}
         resourceIdAccessor="resourceId"
         resourceTitleAccessor="resourceTitle"
+        min={
+          new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8)
+        }
       />
     </div>
   );
