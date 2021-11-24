@@ -79,3 +79,22 @@ export const getMySessions = `query GetMySessions {
     track
   }
 }`;
+
+export const getOverview = `query GetOverview {
+  getOverview {
+    everybody
+  }
+}`;
+
+export const getSchedule = `query GetSchedule($getScheduleInput: GetScheduleInput) {
+  getSchedule (getScheduleInput: $getScheduleInput) {
+    PK
+    SK
+    name
+    sessionId
+    startTime
+    duration
+    room
+    sessionType
+  }
+}`;

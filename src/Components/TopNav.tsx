@@ -23,6 +23,9 @@ const TopNav = (props: any) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
+          <NavLink className="nav-link" to="/calendar" id="dashboard-nav">
+            Calendar
+          </NavLink>
           <NavLink className="nav-link" to="/dashboard" id="dashboard-nav">
             Dashboard
           </NavLink>

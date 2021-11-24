@@ -1,5 +1,6 @@
 export interface ReduxState {
   user: User;
+  schedules: Schedule[];
 }
 
 export interface User {
@@ -55,9 +56,9 @@ export interface Session {
   action?: string;
   alias?: string;
   createdAt?: number;
-  description: string;
+  description?: string;
   duration: number;
-  endTime: number;
+  endTime?: number;
   isConflicting?: string;
   isEmbargoed?: boolean;
   isFavoritedByMe?: boolean;
@@ -73,8 +74,8 @@ export interface Session {
   customFieldDetails?: string;
   package?: string;
   price?: string;
-  room: string;
-  sessionType: string;
+  room?: string;
+  sessionType?: string;
   track?: string;
 }
 export type AlertType = "sns" | "autoregister";
@@ -125,4 +126,19 @@ export interface UpdateAlertInputType {
 
 export interface DeleteAlertInputType {
   id: string;
+}
+
+export interface Person {
+  email: string;
+  sub: string;
+}
+
+export interface Schedule {
+  email: string;
+  sessions: Session[];
+}
+
+export interface DbSchedule {
+  email: string;
+  sessions: DbGetMeReturn[];
 }
