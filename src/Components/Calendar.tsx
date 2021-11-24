@@ -15,6 +15,14 @@ import { DbGetMeReturn, DbSchedule, Person, ReduxState } from "../interfaces";
 
 const localizer = momentLocalizer(moment);
 
+interface CalendarEvent {
+  id: string;
+  title: string;
+  start: Date;
+  end: Date;
+  resourceId: number;
+}
+
 // const resourceMap = [
 //   { resourceId: 1, resourceTitle: "Board room" },
 //   { resourceId: 2, resourceTitle: "Training room" },
@@ -37,10 +45,13 @@ const Calendar = () => {
       '"$2": '
     );
     const everybody = JSON.parse(everybodyJson) as Person[];
+    console.log({ everybody });
     const schedules: DbSchedule[] = [];
     for (let iterator = 0; iterator < everybody.length; iterator++) {
+      const getScheduleInput = { sub: everybody[iterator].sub };
+      console.log({ getScheduleInput });
       const getScheduleReturn = (await API.graphql(
-        graphqlOperation(getSchedule, { sub: everybody[iterator].sub })
+        graphqlOperation(getSchedule, { getScheduleInput })
       )) as any;
       console.log({ getScheduleReturn });
       const dbSchedules = getScheduleReturn.data.getSchedule as DbGetMeReturn[];
@@ -51,14 +62,18 @@ const Calendar = () => {
     }
     dispatch(setSchedule(schedules));
   };
-  const sessions = useSelector((state: ReduxState) => state.user.mySessions);
-  const events = sessions.map(s => ({
-    id: s.sessionId,
-    title: s.name,
-    start: new Date(s.startTime),
-    end: new Date(s.startTime + s.duration * 60000),
-    resourceId: 1,
-  }));
+  let events: CalendarEvent[] = [];
+  for (let iterator = 0; iterator < reduxSchedules.length; iterator++) {
+    events = events.concat(
+      reduxSchedules[iterator].sessions.map(session => ({
+        id: session.sessionId,
+        title: session.name,
+        start: new Date(session.startTime),
+        end: new Date(session.startTime + session.duration * 60000),
+        resourceId: iterator + 1,
+      }))
+    );
+  }
   // TODO: iterate through schedules and add them to the events array
   const resourceMap = reduxSchedules.map((s, i) => ({
     resourceId: i + 1,

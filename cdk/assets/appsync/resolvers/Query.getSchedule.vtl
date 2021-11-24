@@ -4,7 +4,7 @@
   "query": {
     "expression": "PK = :PK and begins_with(SK, :SK)",
     "expressionValues": {
-      ":PK": { "S": "user#$ctx.identity.sub" },
+      ":PK": { "S": "user#$ctx.args.getScheduleInput.sub" },
       ":SK": { "S": "class#registered" }
     }
   }
