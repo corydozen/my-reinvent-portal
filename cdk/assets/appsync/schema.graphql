@@ -1,6 +1,7 @@
 type Query {
   getMe: [GetMeReturn]
   getMyGsiFriends: [GetMeReturn]
+  getEverybodysSchedule: [GetMeReturn]
 }
 
 type Mutation {
