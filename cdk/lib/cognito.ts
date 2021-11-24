@@ -66,7 +66,7 @@ export class Cognito extends cdk.Stack {
         props.dynamodb.table.tableArn,
         `arn:aws:ses:us-east-1:${this.account}:identity/${emailAddress}`,
       ],
-      actions: ["dynamodb:PutItem", "ses:SendEmail"],
+      actions: ["dynamodb:PutItem", "dynamodb:Query", "ses:SendEmail"],
     });
     const policy = new iam.Policy(this, `${proj}CreateUserPolicy`);
     policy.addStatements(policyStatement);
