@@ -19,10 +19,10 @@ const Alert = (props: AlertProps) => {
               <Col>Alert Type</Col>
               <Col>{alert.alertType}</Col>
             </Row> */}
-            <Row>
+            {/* <Row>
               <Col>Updates Or New</Col>
               <Col>{alert.updateOrNew}</Col>
-            </Row>
+            </Row> */}
             {/* <Row>
               <Col>Join Parameters With:</Col>
               <Col>{alert.joinParametersWith}</Col>

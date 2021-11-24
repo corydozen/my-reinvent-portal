@@ -21,7 +21,7 @@ const Dashboard = () => {
   const emailAddress = useSelector((state: ReduxState) => state.user.email);
   const [showNewAlert, setShowNewAlert] = useState<boolean>(false);
   const [newAlertAlertType, setNewAlertAlertType] = useState<string>("");
-  const [newAlertUpdateOrNew, setNewAlertUpdateOrNew] = useState<string>("");
+  const [newAlertUpdateOrNew, setNewAlertUpdateOrNew] = useState<string>("new");
   const [newAlertJoinParametersWith, setNewAlertJoinParametersWith] =
     useState<string>("and");
   const [newParameterType, setNewParameterType] =
@@ -145,7 +145,7 @@ const Dashboard = () => {
                         </select>
                       </Col>
                     </Row> */}
-                    <Row>
+                    {/* <Row>
                       <Col>On Updates Or New Sessions</Col>
                       <Col>
                         <select
@@ -158,7 +158,7 @@ const Dashboard = () => {
                           <option value="both">Both</option>
                         </select>
                       </Col>
-                    </Row>
+                    </Row> */}
                     {/* <Row>
                       <Col>Join Parameters With</Col>
                       <Col>
