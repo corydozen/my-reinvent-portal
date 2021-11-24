@@ -46,6 +46,22 @@ export class AppsyncResolvers extends cdk.Stack {
     });
 
     createResolver({
+      typeName: "Query",
+      fieldName: "getOverview",
+      props,
+      responseType: "Multiple",
+      dataSource: props.appsync.dynamodbDataSource,
+    });
+
+    createResolver({
+      typeName: "Query",
+      fieldName: "getSchedule",
+      props,
+      responseType: "Multiple",
+      dataSource: props.appsync.dynamodbDataSource,
+    });
+
+    createResolver({
       typeName: "Mutation",
       fieldName: "savePassword",
       props,

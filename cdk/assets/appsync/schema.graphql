@@ -1,7 +1,8 @@
 type Query {
   getMe: [GetMeReturn]
   getMyGsiFriends: [GetMeReturn]
-  getEverybodysSchedule: [GetMeReturn]
+  getOverview: [Overview]
+  getSchedule(getScheduleInput: GetScheduleInput): [GetMeReturn]
 }
 
 type Mutation {
@@ -16,6 +17,10 @@ schema {
   mutation: Mutation
 }
 
+input getScheduleInput {
+  sub: String
+}
+
 input DeleteAlertInput {
   id: String
 }
@@ -26,6 +31,10 @@ input UpdateAlertInput {
   parameters: String
   joinParametersWith: String
   emailAddress: String
+}
+
+type Overview {
+  everybody: String
 }
 
 type GetMeReturn {
