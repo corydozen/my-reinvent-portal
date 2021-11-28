@@ -12,8 +12,10 @@ export const findAlertsToSend = async (
   alertsToSend: AlertToSend[],
   eventName: "INSERT" | "MODIFY" | "REMOVE"
 ): Promise<AlertToSend[]> => {
+  console.log({ row, alerts, alertsToSend, eventName });
   for (let iterator = 0; iterator > alerts.length; iterator++) {
     const alert = alerts[iterator];
+    console.log({ alert });
     const joinParametersWith = alert.joinParametersWith
       .S as AlertJoinParametersWithType;
     if (alert.parameters.S && row.dynamodb && row.dynamodb.NewImage) {
@@ -24,11 +26,7 @@ export const findAlertsToSend = async (
       const startTime = parseInt(row.dynamodb.NewImage.startTime.N!);
       const parameters = JSON.parse(alert.parameters.S) as AlertParameter[];
       console.log({ parameters });
-      if (
-        alert.updateOrNew.S === "both" ||
-        (eventName === "INSERT" && alert.updateOrNew.S === "new") ||
-        (eventName === "MODIFY" && alert.updateOrNew.S === "update")
-      ) {
+      if (eventName === "INSERT") {
         let sendAlert = joinParametersWith === "or" ? false : true;
         for (let iterator = 0; iterator < parameters.length; iterator++) {
           const parameter = parameters[iterator];

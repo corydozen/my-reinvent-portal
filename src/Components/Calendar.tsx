@@ -75,7 +75,6 @@ const Calendar = () => {
       }))
     );
   }
-  // TODO: iterate through schedules and add them to the events array
   const resourceMap = reduxSchedules.map((s, i) => ({
     resourceId: i + 1,
     resourceTitle: s.email,
