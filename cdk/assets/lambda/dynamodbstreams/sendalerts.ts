@@ -17,6 +17,7 @@ export const findAlertsToSend = async (
     alerts: JSON.stringify(alerts),
     alertsToSend: JSON.stringify(alertsToSend),
     eventName,
+    alertsLength: alerts.length,
   });
   for (let iterator = 0; iterator > alerts.length; iterator++) {
     const alert = alerts[iterator];
