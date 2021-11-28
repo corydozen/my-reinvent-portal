@@ -19,7 +19,7 @@ export const findAlertsToSend = async (
     eventName,
     alertsLength: alerts.length,
   });
-  for (let iterator = 0; iterator > alerts.length; iterator++) {
+  for (let iterator = 0; iterator < alerts.length; iterator++) {
     const alert = alerts[iterator];
     console.log({ alert });
     if (alert.parameters.S && row.dynamodb && row.dynamodb.NewImage) {
