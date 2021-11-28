@@ -70,6 +70,7 @@ export const findAlertsToSend = async (
             sendAlert = false;
         }
       }
+      console.log({ sendAlert });
       if (sendAlert) {
         const emailIndex = alertsToSend.findIndex(
           e => e.emailAddress === alert.emailAddress.S
