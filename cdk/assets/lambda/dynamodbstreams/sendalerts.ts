@@ -12,7 +12,12 @@ export const findAlertsToSend = async (
   alertsToSend: AlertToSend[],
   eventName: "INSERT" | "MODIFY" | "REMOVE"
 ): Promise<AlertToSend[]> => {
-  console.log({ row, alerts, alertsToSend, eventName });
+  console.log({
+    row: JSON.stringify(row),
+    alerts: JSON.stringify(alerts),
+    alertsToSend: JSON.stringify(alertsToSend),
+    eventName,
+  });
   for (let iterator = 0; iterator > alerts.length; iterator++) {
     const alert = alerts[iterator];
     console.log({ alert });
@@ -99,6 +104,7 @@ export const findAlertsToSend = async (
       // }
     }
   }
+  console.log({ alertsToSend });
   return alertsToSend;
 };
 

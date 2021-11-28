@@ -49,6 +49,7 @@ export const handler = async (event: DynamoDBStreamEvent): Promise<any> => {
         }
       }
     }
+    console.log({ alertsToSend });
     for (let iterator = 0; iterator < alertsToSend.length; iterator++) {
       const params: EmailTemplateInterface = {
         body: alertsToSend[iterator].body,
