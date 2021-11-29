@@ -12,6 +12,9 @@ export interface Room {
   name: string | null;
   venue: string | null;
 }
+export interface Venue {
+  name: string | null;
+}
 export interface Package {
   itemId: string;
 }
@@ -58,6 +61,7 @@ export interface Session {
   package: Package | null;
   price: Price | null;
   room: Room;
+  venue: Venue;
   sessionType: {
     name: string;
   };

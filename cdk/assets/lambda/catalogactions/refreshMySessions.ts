@@ -93,7 +93,7 @@ export const refreshMySessions = async (
             duration: { N: mySessions[row].duration.toString() },
             sessionType: { S: mySessions[row].sessionType.name },
             room: {
-              S: `${mySessions[row].room.venue} at ${mySessions[row].room.name}`,
+              S: `${mySessions[row].venue.name} at ${mySessions[row].room.name}`,
             },
             myReservationStatus: { S: mySessions[row].myReservationStatus },
           },

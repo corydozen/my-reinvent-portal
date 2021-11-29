@@ -8,10 +8,17 @@ import {
   Views,
 } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { Button, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { setSchedule } from "../actions";
 import { getOverview, getSchedule } from "../graphql/queries";
-import { DbGetMeReturn, DbSchedule, Person, ReduxState } from "../interfaces";
+import {
+  DbGetMeReturn,
+  DbSchedule,
+  Person,
+  ReduxState,
+  Session,
+} from "../interfaces";
 
 const localizer = momentLocalizer(moment);
 
@@ -23,17 +30,12 @@ interface CalendarEvent {
   resourceId: number;
 }
 
-// const resourceMap = [
-//   { resourceId: 1, resourceTitle: "Board room" },
-//   { resourceId: 2, resourceTitle: "Training room" },
-//   { resourceId: 3, resourceTitle: "Meeting room 1" },
-//   { resourceId: 4, resourceTitle: "Meeting room 2" },
-// ];
-
 const Calendar = () => {
   const dispatch = useDispatch();
   const reduxSchedules = useSelector((state: ReduxState) => state.schedules);
   const [block, setBlock] = useState<number>(30);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [event, setEvent] = useState<Session | null>(null);
   useEffect(() => {
     getSchedules();
   }, []);
@@ -79,6 +81,16 @@ const Calendar = () => {
     resourceId: i + 1,
     resourceTitle: s.email,
   }));
+  const showEvent = (event: CalendarEvent) => {
+    console.log({ event });
+    const dbEvent = reduxSchedules[event.resourceId - 1].sessions.find(
+      dbSession => dbSession.sessionId === event.id
+    );
+    console.log(reduxSchedules[event.resourceId - 1]);
+    console.log({ dbEvent });
+    setEvent(dbEvent || null);
+    setShowModal(true);
+  };
   const today = new Date();
   return (
     <div>
@@ -95,14 +107,32 @@ const Calendar = () => {
         defaultView={Views.DAY}
         views={["day", "work_week"]}
         step={block}
-        defaultDate={new Date()}
+        defaultDate={today}
         resources={resourceMap}
         resourceIdAccessor="resourceId"
         resourceTitleAccessor="resourceTitle"
+        onSelectEvent={event => showEvent(event)}
         min={
           new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8)
         }
       />
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>{event?.name}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>{event?.room}</p>
+          <p>{event?.description}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={() => setShowModal(false)}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

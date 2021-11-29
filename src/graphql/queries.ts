@@ -96,5 +96,6 @@ export const getSchedule = `query GetSchedule($getScheduleInput: GetScheduleInpu
     duration
     room
     sessionType
+    description
   }
 }`;
