@@ -33,7 +33,7 @@ interface CalendarEvent {
 const Calendar = () => {
   const dispatch = useDispatch();
   const reduxSchedules = useSelector((state: ReduxState) => state.schedules);
-  const [block, setBlock] = useState<number>(60);
+  const [block, setBlock] = useState<number>(30);
   useEffect(() => {
     getSchedules();
   }, []);
@@ -87,6 +87,7 @@ const Calendar = () => {
         <option value="120">Two Hours</option>
         <option value="60">Hour</option>
         <option value="30">Half-Hour</option>
+        <option value="15">15 Minutes</option>
       </select>
       <BigCalendar
         events={events}
@@ -94,7 +95,7 @@ const Calendar = () => {
         defaultView={Views.DAY}
         views={["day", "work_week"]}
         step={block}
-        defaultDate={new Date(2021, 10, 29)}
+        defaultDate={new Date()}
         resources={resourceMap}
         resourceIdAccessor="resourceId"
         resourceTitleAccessor="resourceTitle"
